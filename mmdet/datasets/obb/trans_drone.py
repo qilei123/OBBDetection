@@ -36,12 +36,16 @@ class TDDataset(CustomDataset):
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
         self.cat2label = {cat_id: i for i, cat_id in enumerate(self.cat_ids)}
         self.img_ids = self.coco.get_img_ids()
-        data_infos = []
+
+        contents = []
         for i in self.img_ids:
             info = self.coco.load_imgs([i])[0]
-            info['filename'] = info['file_name']
-            data_infos.append(info)
-        return data_infos
+            img_id = info['id']
+            ann_ids = self.coco.get_ann_ids(img_ids=[img_id])
+            ann_info = self.coco.load_anns(ann_ids)
+            content = self._parse_ann_info(info,ann_info)
+            contents.append(content)
+        return contents
 
     def get_ann_info(self, idx):
         """Get COCO annotation by index.
@@ -102,12 +106,15 @@ class TDDataset(CustomDataset):
             ids |= set(self.coco.cat_img_map[class_id])
         self.img_ids = list(ids)
 
-        data_infos = []
+        contents = []
         for i in self.img_ids:
             info = self.coco.load_imgs([i])[0]
-            info['filename'] = info['file_name']
-            data_infos.append(info)
-        return data_infos
+            img_id = info['id']
+            ann_ids = self.coco.get_ann_ids(img_ids=[img_id])
+            ann_info = self.coco.load_anns(ann_ids)
+            content = self._parse_ann_info(info,ann_info)
+            contents.append(content)
+        return contents
 
     def _parse_ann_info(self, img_info, ann_info):
         """Parse bbox and mask annotation.
@@ -123,8 +130,8 @@ class TDDataset(CustomDataset):
         """
         gt_bboxes = []
         gt_labels = []
-        gt_bboxes_ignore = []
         gt_masks_ann = []
+        diffs = []
         for i, ann in enumerate(ann_info):
             if ann.get('ignore', False):
                 continue
@@ -138,353 +145,118 @@ class TDDataset(CustomDataset):
             if ann['category_id'] not in self.cat_ids:
                 continue
             bbox = [x1, y1, x1 + w, y1 + h]
-            if ann.get('iscrowd', False):
-                gt_bboxes_ignore.append(bbox)
-            else:
-                gt_bboxes.append(bbox)
-                gt_labels.append(self.cat2label[ann['category_id']])
-                gt_masks_ann.append(ann['segmentation'])
+
+            gt_bboxes.append(bbox)
+            gt_labels.append(self.cat2label[ann['category_id']])
+            gt_masks_ann.append(ann['segmentation'][0])
+            diffs.append(0)
 
         if gt_bboxes:
             gt_bboxes = np.array(gt_bboxes, dtype=np.float32)
             gt_labels = np.array(gt_labels, dtype=np.int64)
+            gt_masks_ann = np.array(gt_masks_ann, dtype=np.float32)
+            diffs = np.array(diffs, dtype=np.int64)
         else:
             gt_bboxes = np.zeros((0, 4), dtype=np.float32)
             gt_labels = np.array([], dtype=np.int64)
-
-        if gt_bboxes_ignore:
-            gt_bboxes_ignore = np.array(gt_bboxes_ignore, dtype=np.float32)
-        else:
-            gt_bboxes_ignore = np.zeros((0, 4), dtype=np.float32)
-
-        seg_map = img_info['filename'].replace('jpg', 'png')
+            gt_masks_ann = np.zeros((0, 8), dtype=np.float32)
+            diffs = np.zeros((0, ), dtype=np.int64)
 
         ann = dict(
-            bboxes=gt_bboxes,
+            bboxes=gt_masks_ann,
             labels=gt_labels,
-            bboxes_ignore=gt_bboxes_ignore,
-            masks=gt_masks_ann,
-            seg_map=seg_map)
+            diffs=diffs)
 
-        return ann
+        content = dict(ann=ann)
+        content.update(dict(width=img_info['width'], 
+                            height=img_info['height'], 
+                            filename=img_info['file_name'], 
+                            id=img_info['id']))
+        return content
 
-    def xyxy2xywh(self, bbox):
-        """Convert ``xyxy`` style bounding boxes to ``xywh`` style for COCO
-        evaluation.
+    def format_results(self, results, save_dir=None, **kwargs):
+        assert len(results) == len(self.data_infos)
+        contents = []
+        for result, data_info in zip(results, self.data_infos):
+            info = copy.deepcopy(data_info)
+            info.pop('ann')
 
-        Args:
-            bbox (numpy.ndarray): The bounding boxes, shape (4, ), in
-                ``xyxy`` order.
+            ann, bboxes, labels, scores = dict(), list(), list(), list()
+            for i, dets in enumerate(result):
+                bboxes.append(dets[:, :-1])
+                scores.append(dets[:, -1])
+                labels.append(np.zeros((dets.shape[0], ), dtype=np.int) + i)
+            ann['bboxes'] = np.concatenate(bboxes, axis=0)
+            ann['labels'] = np.concatenate(labels, axis=0)
+            ann['scores'] = np.concatenate(scores, axis=0)
+            info['ann'] = ann
+            contents.append(info)
 
-        Returns:
-            list[float]: The converted bounding boxes, in ``xywh`` order.
-        """
-
-        _bbox = bbox.tolist()
-        return [
-            _bbox[0],
-            _bbox[1],
-            _bbox[2] - _bbox[0],
-            _bbox[3] - _bbox[1],
-        ]
-
-    def _proposal2json(self, results):
-        """Convert proposal results to COCO json style"""
-        json_results = []
-        for idx in range(len(self)):
-            img_id = self.img_ids[idx]
-            bboxes = results[idx]
-            for i in range(bboxes.shape[0]):
-                data = dict()
-                data['image_id'] = img_id
-                data['bbox'] = self.xyxy2xywh(bboxes[i])
-                data['score'] = float(bboxes[i][4])
-                data['category_id'] = 1
-                json_results.append(data)
-        return json_results
-
-    def _det2json(self, results):
-        """Convert detection results to COCO json style"""
-        json_results = []
-        for idx in range(len(self)):
-            img_id = self.img_ids[idx]
-            result = results[idx]
-            for label in range(len(result)):
-                bboxes = result[label]
-                for i in range(bboxes.shape[0]):
-                    data = dict()
-                    data['image_id'] = img_id
-                    data['bbox'] = self.xyxy2xywh(bboxes[i])
-                    data['score'] = float(bboxes[i][4])
-                    data['category_id'] = self.cat_ids[label]
-                    json_results.append(data)
-        return json_results
-
-    def _segm2json(self, results):
-        """Convert instance segmentation results to COCO json style"""
-        bbox_json_results = []
-        segm_json_results = []
-        for idx in range(len(self)):
-            img_id = self.img_ids[idx]
-            det, seg = results[idx]
-            for label in range(len(det)):
-                # bbox results
-                bboxes = det[label]
-                for i in range(bboxes.shape[0]):
-                    data = dict()
-                    data['image_id'] = img_id
-                    data['bbox'] = self.xyxy2xywh(bboxes[i])
-                    data['score'] = float(bboxes[i][4])
-                    data['category_id'] = self.cat_ids[label]
-                    bbox_json_results.append(data)
-
-                # segm results
-                # some detectors use different scores for bbox and mask
-                if isinstance(seg, tuple):
-                    segms = seg[0][label]
-                    mask_score = seg[1][label]
-                else:
-                    segms = seg[label]
-                    mask_score = [bbox[4] for bbox in bboxes]
-                for i in range(bboxes.shape[0]):
-                    data = dict()
-                    data['image_id'] = img_id
-                    data['bbox'] = self.xyxy2xywh(bboxes[i])
-                    data['score'] = float(mask_score[i])
-                    data['category_id'] = self.cat_ids[label]
-                    if isinstance(segms[i]['counts'], bytes):
-                        segms[i]['counts'] = segms[i]['counts'].decode()
-                    data['segmentation'] = segms[i]
-                    segm_json_results.append(data)
-        return bbox_json_results, segm_json_results
-
-    def results2json(self, results, outfile_prefix):
-        """Dump the detection results to a COCO style json file.
-
-        There are 3 types of results: proposals, bbox predictions, mask
-        predictions, and they have different data types. This method will
-        automatically recognize the type, and dump them to json files.
-
-        Args:
-            results (list[list | tuple | ndarray]): Testing results of the
-                dataset.
-            outfile_prefix (str): The filename prefix of the json files. If the
-                prefix is "somepath/xxx", the json files will be named
-                "somepath/xxx.bbox.json", "somepath/xxx.segm.json",
-                "somepath/xxx.proposal.json".
-
-        Returns:
-            dict[str: str]: Possible keys are "bbox", "segm", "proposal", and
-                values are corresponding filenames.
-        """
-        result_files = dict()
-        if isinstance(results[0], list):
-            json_results = self._det2json(results)
-            result_files['bbox'] = f'{outfile_prefix}.bbox.json'
-            result_files['proposal'] = f'{outfile_prefix}.bbox.json'
-            mmcv.dump(json_results, result_files['bbox'])
-        elif isinstance(results[0], tuple):
-            json_results = self._segm2json(results)
-            result_files['bbox'] = f'{outfile_prefix}.bbox.json'
-            result_files['proposal'] = f'{outfile_prefix}.bbox.json'
-            result_files['segm'] = f'{outfile_prefix}.segm.json'
-            mmcv.dump(json_results[0], result_files['bbox'])
-            mmcv.dump(json_results[1], result_files['segm'])
-        elif isinstance(results[0], np.ndarray):
-            json_results = self._proposal2json(results)
-            result_files['proposal'] = f'{outfile_prefix}.proposal.json'
-            mmcv.dump(json_results, result_files['proposal'])
-        else:
-            raise TypeError('invalid type of results')
-        return result_files
-
-    def fast_eval_recall(self, results, proposal_nums, iou_thrs, logger=None):
-        gt_bboxes = []
-        for i in range(len(self.img_ids)):
-            ann_ids = self.coco.get_ann_ids(img_ids=self.img_ids[i])
-            ann_info = self.coco.load_anns(ann_ids)
-            if len(ann_info) == 0:
-                gt_bboxes.append(np.zeros((0, 4)))
-                continue
-            bboxes = []
-            for ann in ann_info:
-                if ann.get('ignore', False) or ann['iscrowd']:
-                    continue
-                x1, y1, w, h = ann['bbox']
-                bboxes.append([x1, y1, x1 + w, y1 + h])
-            bboxes = np.array(bboxes, dtype=np.float32)
-            if bboxes.shape[0] == 0:
-                bboxes = np.zeros((0, 4))
-            gt_bboxes.append(bboxes)
-
-        recalls = eval_recalls(
-            gt_bboxes, results, proposal_nums, iou_thrs, logger=logger)
-        ar = recalls.mean(axis=1)
-        return ar
-
-    def format_results(self, results, jsonfile_prefix=None, **kwargs):
-        """Format the results to json (standard format for COCO evaluation).
-
-        Args:
-            results (list[tuple | numpy.ndarray]): Testing results of the
-                dataset.
-            jsonfile_prefix (str | None): The prefix of json files. It includes
-                the file path and the prefix of filename, e.g., "a/b/prefix".
-                If not specified, a temp file will be created. Default: None.
-
-        Returns:
-            tuple: (result_files, tmp_dir), result_files is a dict containing
-                the json filepaths, tmp_dir is the temporal directory created
-                for saving json files when jsonfile_prefix is not specified.
-        """
-        assert isinstance(results, list), 'results must be a list'
-        assert len(results) == len(self), (
-            'The length of results is not equal to the dataset len: {} != {}'.
-            format(len(results), len(self)))
-
-        if jsonfile_prefix is None:
-            tmp_dir = tempfile.TemporaryDirectory()
-            jsonfile_prefix = osp.join(tmp_dir.name, 'results')
-        else:
-            tmp_dir = None
-        result_files = self.results2json(results, jsonfile_prefix)
-        return result_files, tmp_dir
+        if save_dir is not None:
+            bt.save_pkl(save_dir, contents, self.CLASSES)
+        return contents
 
     def evaluate(self,
                  results,
-                 metric='bbox',
+                 metric='mAP',
                  logger=None,
-                 jsonfile_prefix=None,
-                 classwise=False,
-                 proposal_nums=(100, 300, 1000),
-                 iou_thrs=np.arange(0.5, 0.96, 0.05)):
-        """Evaluation in COCO protocol.
+                 iou_thr=0.5,
+                 ign_diff=True,
+                 scale_ranges=None,
+                 use_07_metric=True,
+                 proposal_nums=(100, 300, 1000)):
 
-        Args:
-            results (list[list | tuple]): Testing results of the dataset.
-            metric (str | list[str]): Metrics to be evaluated. Options are
-                'bbox', 'segm', 'proposal', 'proposal_fast'.
-            logger (logging.Logger | str | None): Logger used for printing
-                related information during evaluation. Default: None.
-            jsonfile_prefix (str | None): The prefix of json files. It includes
-                the file path and the prefix of filename, e.g., "a/b/prefix".
-                If not specified, a temp file will be created. Default: None.
-            classwise (bool): Whether to evaluating the AP for each class.
-            proposal_nums (Sequence[int]): Proposal number used for evaluating
-                recalls, such as recall@100, recall@1000.
-                Default: (100, 300, 1000).
-            iou_thrs (Sequence[float]): IoU threshold used for evaluating
-                recalls. If set to a list, the average recall of all IoUs will
-                also be computed. Default: 0.5.
+        if not isinstance(metric, str):
+            assert len(metric) == 1
+            metric = metric[0]
+        allowed_metrics = ['mAP', 'recall']
+        if metric not in allowed_metrics:
+            raise KeyError(f'metric {metric} is not supported')
 
-        Returns:
-            dict[str, float]: COCO style evaluation metric.
-        """
+        if not ign_diff:
+            annotations = [self.get_ann_info(i) for i in range(len(self))]
+        else:
+            annotations = []
+            for i in range(len(self)):
+                ann = self.get_ann_info(i)
+                gt_bboxes = ann['bboxes']
+                gt_labels = ann['labels']
+                diffs = ann.get(
+                    'diffs', np.zeros((gt_bboxes.shape[0], ), dtype=np.int))
 
-        metrics = metric if isinstance(metric, list) else [metric]
-        allowed_metrics = ['bbox', 'segm', 'proposal', 'proposal_fast']
-        for metric in metrics:
-            if metric not in allowed_metrics:
-                raise KeyError(f'metric {metric} is not supported')
-
-        result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
+                gt_ann = {}
+                if ign_diff:
+                    gt_ann['bboxes_ignore'] = gt_bboxes[diffs == 1]
+                    gt_ann['labels_ignore'] = gt_labels[diffs == 1]
+                    gt_bboxes = gt_bboxes[diffs == 0]
+                    gt_labels = gt_labels[diffs == 0]
+                gt_ann['bboxes'] = gt_bboxes
+                gt_ann['labels'] = gt_labels
+                annotations.append(gt_ann)
 
         eval_results = {}
-        cocoGt = self.coco
-        for metric in metrics:
-            msg = f'Evaluating {metric}...'
-            if logger is None:
-                msg = '\n' + msg
-            print_log(msg, logger=logger)
-
-            if metric == 'proposal_fast':
-                ar = self.fast_eval_recall(
-                    results, proposal_nums, iou_thrs, logger='silent')
-                log_msg = []
+        if metric == 'mAP':
+            assert isinstance(iou_thr, float)
+            mean_ap, _ = eval_arb_map(
+                results,
+                annotations,
+                scale_ranges=scale_ranges,
+                iou_thr=iou_thr,
+                use_07_metric=use_07_metric,
+                dataset=self.CLASSES,
+                logger=logger)
+            eval_results['mAP'] = mean_ap
+        elif metric == 'recall':
+            gt_bboxes = [ann['bboxes'] for ann in annotations]
+            if isinstance(iou_thr, float):
+                iou_thr = [iou_thr]
+            recalls = eval_arb_recalls(
+                gt_bboxes, results, True, proposal_nums, iou_thr, logger=logger)
+            for i, num in enumerate(proposal_nums):
+                for j, iou in enumerate(iou_thr):
+                    eval_results[f'recall@{num}@{iou}'] = recalls[i, j]
+            if recalls.shape[1] > 1:
+                ar = recalls.mean(axis=1)
                 for i, num in enumerate(proposal_nums):
                     eval_results[f'AR@{num}'] = ar[i]
-                    log_msg.append(f'\nAR@{num}\t{ar[i]:.4f}')
-                log_msg = ''.join(log_msg)
-                print_log(log_msg, logger=logger)
-                continue
-
-            if metric not in result_files:
-                raise KeyError(f'{metric} is not in results')
-            try:
-                cocoDt = cocoGt.loadRes(result_files[metric])
-            except IndexError:
-                print_log(
-                    'The testing results of the whole dataset is empty.',
-                    logger=logger,
-                    level=logging.ERROR)
-                break
-
-            iou_type = 'bbox' if metric == 'proposal' else metric
-            cocoEval = COCOeval(cocoGt, cocoDt, iou_type)
-            cocoEval.params.catIds = self.cat_ids
-            cocoEval.params.imgIds = self.img_ids
-            if metric == 'proposal':
-                cocoEval.params.useCats = 0
-                cocoEval.params.maxDets = list(proposal_nums)
-                cocoEval.evaluate()
-                cocoEval.accumulate()
-                cocoEval.summarize()
-                metric_items = [
-                    'AR@100', 'AR@300', 'AR@1000', 'AR_s@1000', 'AR_m@1000',
-                    'AR_l@1000'
-                ]
-                for i, item in enumerate(metric_items):
-                    val = float(f'{cocoEval.stats[i + 6]:.3f}')
-                    eval_results[item] = val
-            else:
-                cocoEval.evaluate()
-                cocoEval.accumulate()
-                cocoEval.summarize()
-                if classwise:  # Compute per-category AP
-                    # Compute per-category AP
-                    # from https://github.com/facebookresearch/detectron2/
-                    precisions = cocoEval.eval['precision']
-                    # precision: (iou, recall, cls, area range, max dets)
-                    assert len(self.cat_ids) == precisions.shape[2]
-
-                    results_per_category = []
-                    for idx, catId in enumerate(self.cat_ids):
-                        # area range index 0: all area ranges
-                        # max dets index -1: typically 100 per image
-                        nm = self.coco.loadCats(catId)[0]
-                        precision = precisions[:, :, idx, 0, -1]
-                        precision = precision[precision > -1]
-                        if precision.size:
-                            ap = np.mean(precision)
-                        else:
-                            ap = float('nan')
-                        results_per_category.append(
-                            (f'{nm["name"]}', f'{float(ap):0.3f}'))
-
-                    num_columns = min(6, len(results_per_category) * 2)
-                    results_flatten = list(
-                        itertools.chain(*results_per_category))
-                    headers = ['category', 'AP'] * (num_columns // 2)
-                    results_2d = itertools.zip_longest(*[
-                        results_flatten[i::num_columns]
-                        for i in range(num_columns)
-                    ])
-                    table_data = [headers]
-                    table_data += [result for result in results_2d]
-                    table = AsciiTable(table_data)
-                    print_log('\n' + table.table, logger=logger)
-
-                metric_items = [
-                    'mAP', 'mAP_50', 'mAP_75', 'mAP_s', 'mAP_m', 'mAP_l'
-                ]
-                for i in range(len(metric_items)):
-                    key = f'{metric}_{metric_items[i]}'
-                    val = float(f'{cocoEval.stats[i]:.3f}')
-                    eval_results[key] = val
-                ap = cocoEval.stats[:6]
-                eval_results[f'{metric}_mAP_copypaste'] = (
-                    f'{ap[0]:.3f} {ap[1]:.3f} {ap[2]:.3f} {ap[3]:.3f} '
-                    f'{ap[4]:.3f} {ap[5]:.3f}')
-        if tmp_dir is not None:
-            tmp_dir.cleanup()
         return eval_results
