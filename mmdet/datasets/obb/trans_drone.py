@@ -46,7 +46,7 @@ class TDDataset(CustomDataset):
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
         return contents
-
+    '''
     def get_ann_info(self, idx):
         """Get COCO annotation by index.
 
@@ -61,7 +61,7 @@ class TDDataset(CustomDataset):
         ann_ids = self.coco.get_ann_ids(img_ids=[img_id])
         ann_info = self.coco.load_anns(ann_ids)
         return self._parse_ann_info(self.data_infos[idx], ann_info)
-
+    '''
     def get_cat_ids(self, idx):
         """Get COCO category ids by index.
 
@@ -151,16 +151,12 @@ class TDDataset(CustomDataset):
             gt_masks_ann.append(ann['segmentation'][0])
             diffs.append(0)
 
-        if gt_bboxes:
-            gt_bboxes = np.array(gt_bboxes, dtype=np.float32)
-            gt_labels = np.array(gt_labels, dtype=np.int64)
-            gt_masks_ann = np.array(gt_masks_ann, dtype=np.float32)
-            diffs = np.array(diffs, dtype=np.int64)
-        else:
-            gt_bboxes = np.zeros((0, 4), dtype=np.float32)
-            gt_labels = np.array([], dtype=np.int64)
-            gt_masks_ann = np.zeros((0, 8), dtype=np.float32)
-            diffs = np.zeros((0, ), dtype=np.int64)
+        gt_masks_ann = np.array(gt_masks_ann, dtype=np.float32) if gt_masks_ann else \
+                np.zeros((0, 8), dtype=np.float32)
+        gt_labels = np.array(gt_labels, dtype=np.int64) if gt_labels else \
+                np.zeros((0, ), dtype=np.int64)
+        diffs = np.array(diffs, dtype=np.int64) if diffs else \
+                np.zeros((0, ), dtype=np.int64)
 
         ann = dict(
             bboxes=gt_masks_ann,
