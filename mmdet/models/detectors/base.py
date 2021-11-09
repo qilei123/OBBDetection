@@ -144,7 +144,7 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
         assert samples_per_gpu == 1
         print(num_augs)
         print(img_metas)
-        print(hasattr(img_metas,'data'))
+        print(hasattr(img_metas[0],'data'))
         if num_augs == 1:
             """
             proposals (List[List[Tensor]]): the outer list indicates test-time
