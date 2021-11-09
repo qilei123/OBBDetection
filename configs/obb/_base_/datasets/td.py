@@ -44,18 +44,18 @@ data = dict(
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'Annotations/',
-        img_prefix=data_root + 'JPEGImages/',
+        ann_file=data_root + 'annotations/train_AW_obb.json',
+        img_prefix=data_root + 'images/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'Annotations/',
-        img_prefix=data_root + 'JPEGImages/',
+        ann_file=data_root + 'annotations/test_AW_obb.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'Annotations/',
-        img_prefix=data_root + 'JPEGImages/',
+        ann_file=data_root + 'annotations/test_AW_obb.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
 evaluation = dict(metric='mAP')
 
