@@ -142,7 +142,8 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
         # TODO: remove the restriction of samples_per_gpu == 1 when prepared
         samples_per_gpu = imgs[0].size(0)
         assert samples_per_gpu == 1
-        
+        print(num_augs)
+        print(img_metas)
         if num_augs == 1:
             """
             proposals (List[List[Tensor]]): the outer list indicates test-time
