@@ -4,7 +4,7 @@ _base_ = [
     '../../_base_/default_runtime.py'
 ]
 
-img_rescale_ratio = 0.25
+img_rescale_ratio = 0.5
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
