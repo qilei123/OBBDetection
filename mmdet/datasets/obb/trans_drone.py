@@ -7,10 +7,8 @@ import mmcv
 import numpy as np
 from mmcv.utils import print_log
 from pycocotools.coco import COCO
-from pycocotools.cocoeval import COCOeval
-from terminaltables import AsciiTable
 
-from mmdet.core import eval_recalls
+from mmdet.core import eval_arb_map, eval_arb_recalls
 from ..builder import DATASETS
 from ..custom import CustomDataset
 
