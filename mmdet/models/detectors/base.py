@@ -153,7 +153,6 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
             if 'proposals' in kwargs:
                 kwargs['proposals'] = kwargs['proposals'][0]
             if hasattr(img_metas[0],'data'):
-
                 return self.simple_test(imgs[0], img_metas[0].data[0], **kwargs)
             else:
                 return self.simple_test(imgs[0], img_metas[0], **kwargs)
