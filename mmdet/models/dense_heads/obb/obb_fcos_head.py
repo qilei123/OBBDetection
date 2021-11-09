@@ -323,8 +323,10 @@ class OBBFCOSHead(OBBAnchorFreeHead):
             centerness_pred_list = [
                 centernesses[i][img_id].detach() for i in range(num_levels)
             ]
-            img_shape = img_metas.data[0][img_id]['img_shape']
-            scale_factor = img_metas.data[0][img_id]['scale_factor']
+            img_shape = img_metas[img_id]['img_shape']
+            scale_factor = img_metas[img_id]['scale_factor']            
+            #img_shape = img_metas.data[0][img_id]['img_shape']
+            #scale_factor = img_metas.data[0][img_id]['scale_factor']
             det_bboxes = self._get_bboxes_single(cls_score_list,
                                                  bbox_pred_list,
                                                  theta_pred_list,
