@@ -72,3 +72,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[8, 11])
 total_epochs = 12
+work_dir = 'data/td/work_dirs/fcos_obb_r50_caffe_fpn_gn-head_4x4_1x_td'
