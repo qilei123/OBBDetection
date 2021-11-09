@@ -58,7 +58,7 @@ test_cfg = dict(
     min_bbox_size=0,
     score_thr=0.05,
     nms=dict(type='obb_nms', iou_thr=0.1),
-    max_per_img=2000)
+    max_per_img=200)
 # optimizer
 optimizer = dict(
     lr=0.0025, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
