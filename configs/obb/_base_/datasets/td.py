@@ -40,8 +40,8 @@ test_pipeline = [
 # does evaluation while training
 # uncomments it  when you need evaluate every epoch
 data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=4,
+    samples_per_gpu=4,
+    workers_per_gpu=8,
     train=dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/train_AW_obb.json',
