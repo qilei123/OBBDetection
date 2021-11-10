@@ -17,6 +17,7 @@ from .obb.hrsc import HRSCDataset
 from .obb.msra_td500 import MSRATD500Dataset
 from .obb.rctw17 import RCTW17Dataset
 from .obb.trans_drone import TDDataset
+from .obb.vis_drone import VDDataset
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'DeepFashionDataset',
