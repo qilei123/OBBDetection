@@ -1,7 +1,7 @@
 _base_ = [
-    '../_base_/datasets/vd.py',
-    '../_base_/schedules/schedule_1x.py',
-    '../../_base_/default_runtime.py'
+    '../../_base_/datasets/vd.py',
+    '../../_base_/schedules/schedule_1x.py',
+    '../../../_base_/default_runtime.py'
 ]
 data_root = 'data/vdr/'
 img_rescale_ratio = 0.25
