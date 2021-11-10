@@ -103,17 +103,22 @@ test_pipeline = [
         ])
 ]
 
-# does evaluation while training
-# uncomments it  when you need evaluate every epoch
 data = dict(
     samples_per_gpu=4,
     workers_per_gpu=8,
     train=dict(
+        ann_file=data_root + 'annotations/train.json',
+        img_prefix=data_root + 'images/',
         pipeline=train_pipeline),
     val=dict(
+        ann_file=data_root + 'annotations/val.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline),
     test=dict(
+        ann_file=data_root + 'annotations/val.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
+
 
 # learning policy
 lr_config = dict(
@@ -123,4 +128,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/vd/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_vd'
+work_dir = 'data/vdr/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_vdr'
