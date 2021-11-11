@@ -19,7 +19,7 @@ class TDDataset(CustomDataset):
     CLASSES = ('Small 1-piece vehicle',
                     'Large 1-piece vehicle',
                     'Extra-large 2-piece truck',)
-
+    coco_type = True
     def load_annotations(self, ann_file):
         """Load annotation from COCO style annotation file.
 
@@ -30,9 +30,17 @@ class TDDataset(CustomDataset):
             list[dict]: Annotation info from COCO api.
         """
         if ann_file.endswith('pkl'):
+            self.coco_type = False
             ann_dict = mmcv.load(ann_file)
-            print(ann_dict)
-            return ann_dict['content']
+            contents = ann_dict['content']
+            if not self.test_mode:
+                data_infos = []
+                for content in contents:
+                    if len(content['ann']['bboxes']) != 0:
+                        data_infos.append(content)
+            else:
+                data_infos = contents
+            return data_infos
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
@@ -48,22 +56,6 @@ class TDDataset(CustomDataset):
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
         return contents
-    '''
-    def get_ann_info(self, idx):
-        """Get COCO annotation by index.
-
-        Args:
-            idx (int): Index of data.
-
-        Returns:
-            dict: Annotation info of specified index.
-        """
-
-        img_id = self.data_infos[idx]['id']
-        ann_ids = self.coco.get_ann_ids(img_ids=[img_id])
-        ann_info = self.coco.load_anns(ann_ids)
-        return self._parse_ann_info(self.data_infos[idx], ann_info)
-    '''
     def get_cat_ids(self, idx):
         """Get COCO category ids by index.
 
@@ -82,7 +74,8 @@ class TDDataset(CustomDataset):
     def _filter_imgs(self, min_size=32):
         """Filter images too small or without ground truths."""
         valid_inds = []
-        ids_with_ann = set(_['image_id'] for _ in self.coco.anns.values())
+        if self.coco_type:
+            ids_with_ann = set(_['image_id'] for _ in self.coco.anns.values())
         for i, img_info in enumerate(self.data_infos):
             if self.filter_empty_gt and self.img_ids[i] not in ids_with_ann:
                 continue
