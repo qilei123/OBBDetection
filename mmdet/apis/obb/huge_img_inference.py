@@ -121,6 +121,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
     height, width = img.shape[:2]
     sizes, steps = parse_split_cfg(split_cfg)
     windows = get_windows(width, height, sizes, steps)
+    print(windows)
     # detection loop
     results = []
     prog_bar = mmcv.ProgressBar(len(windows))
