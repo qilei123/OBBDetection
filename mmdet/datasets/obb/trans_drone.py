@@ -29,7 +29,7 @@ class TDDataset(CustomDataset):
         Returns:
             list[dict]: Annotation info from COCO api.
         """
-        if ann_file.endwith('pkl'):
+        if ann_file.endswith('pkl'):
             annfile = osp.join(ann_file, 'patch_annfile.pkl')
             return ann_file['content']
 
