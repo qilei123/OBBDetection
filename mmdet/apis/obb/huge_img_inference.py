@@ -99,7 +99,7 @@ def parse_split_cfg(split_cfg):
     return _sizes, _steps
 
 
-def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
+def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
     cfg = model.cfg
     device = next(model.parameters()).device  # model device
     # build the data pipeline
@@ -121,7 +121,8 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
     height, width = img.shape[:2]
     sizes, steps = parse_split_cfg(split_cfg)
     windows = get_windows(width, height, sizes, steps)
-    
+    if mix:
+        windows.append([0,0,width,height])
     # detection loop
     results = []
     #prog_bar = mmcv.ProgressBar(len(windows))
@@ -145,7 +146,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
     #print()
     #print('Merge patch results!!')
     results = merge_patch_results(results, windows, merge_cfg)
-    return results,windows
+    return results
 
 
 def merge_patch_results(results, windows, nms_cfg):
