@@ -44,10 +44,9 @@ class TDDataset(CustomDataset):
             for data_info in data_infos:
                 for label in data_info['ann']['labels']:
                     label_counts[int(label)-1]+=1
-            print(label_counts)
             self.cat_ids = [1,2,3]
             self.cat2label = {1:0,2:1,3:2}
-            return data_infos
+            return data_infos[:1000]
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
