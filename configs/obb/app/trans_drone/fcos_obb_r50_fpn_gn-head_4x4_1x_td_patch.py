@@ -106,7 +106,7 @@ test_pipeline = [
 # does evaluation while training
 # uncomments it  when you need evaluate every epoch
 data = dict(
-    samples_per_gpu=8,
+    samples_per_gpu=16,
     workers_per_gpu=8,
     train=dict(
         ann_file=data_root + 'split_set_train/annfiles/patch_annfile.pkl',
