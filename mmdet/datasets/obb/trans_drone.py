@@ -34,7 +34,6 @@ class TDDataset(CustomDataset):
             ann_files = glob.glob(ann_file)
             contents = []
             for ann_file in ann_files:
-                print(ann_file)
                 ann_dict = mmcv.load(ann_file)
                 contents.extend( ann_dict['content'] )
 
