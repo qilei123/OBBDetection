@@ -7,7 +7,7 @@ import mmcv
 import numpy as np
 from mmcv.utils import print_log
 from pycocotools.coco import COCO
-
+import glob
 from mmdet.core import eval_arb_map, eval_arb_recalls
 from ..builder import DATASETS
 from ..custom import CustomDataset
@@ -31,8 +31,13 @@ class TDDataset(CustomDataset):
         """
         if ann_file.endswith('pkl'):
             self.coco_type = False
-            ann_dict = mmcv.load(ann_file)
-            contents = ann_dict['content']
+            ann_files = glob.glob(ann_file)
+            contents = []
+            for ann_file in ann_files:
+                print(ann_file)
+                ann_dict = mmcv.load(ann_file)
+                contents.extend( ann_dict['content'] )
+
             if not self.test_mode:
                 data_infos = []
                 for content in contents:
