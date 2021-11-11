@@ -23,6 +23,10 @@ def parse_args():
         '--out_dir', type=str, default='', help='out_dir')
     parser.add_argument(
         '--score-thr', type=float, default=0.5, help='bbox score threshold')
+    parser.add_argument(
+        '--mix',
+        action='store_false',
+        help='whether to mix patchs and the whole image detection')
     args = parser.parse_args()
     return args
 
@@ -50,7 +54,7 @@ def main():
             result = inference_detector(model, img)
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.5)
-            result,windows = inference_detector_huge_image(model,img,args.split,nms_cfg)
+            result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         img = model.show_result(img, result, show=False)
         if video_writer:
