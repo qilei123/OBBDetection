@@ -76,13 +76,17 @@ class TDDataset(CustomDataset):
         valid_inds = []
         if self.coco_type:
             ids_with_ann = set(_['image_id'] for _ in self.coco.anns.values())
-        for i, img_info in enumerate(self.data_infos):
-            if self.filter_empty_gt and self.img_ids[i] not in ids_with_ann:
-                continue
-            if min(img_info['width'], img_info['height']) >= min_size:
-                valid_inds.append(i)
-        return valid_inds
-
+            for i, img_info in enumerate(self.data_infos):
+                if self.filter_empty_gt and self.img_ids[i] not in ids_with_ann:
+                    continue
+                if min(img_info['width'], img_info['height']) >= min_size:
+                    valid_inds.append(i)
+            return valid_inds
+        else:
+            for i, img_info in enumerate(self.data_infos):
+                if min(img_info['width'], img_info['height']) >= min_size:
+                    valid_inds.append(i)
+            return valid_inds
     def get_subset_by_classes(self):
         """Get img ids that contain any category in class_ids.
 
