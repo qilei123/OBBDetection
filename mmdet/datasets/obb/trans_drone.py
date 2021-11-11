@@ -31,6 +31,7 @@ class TDDataset(CustomDataset):
         """
         if ann_file.endswith('pkl'):
             ann_dict = mmcv.load(ann_file)
+            print(ann_dict)
             return ann_dict['content']
 
         self.coco = COCO(ann_file)
