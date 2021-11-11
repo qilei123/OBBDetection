@@ -25,7 +25,7 @@ def parse_args():
         '--score-thr', type=float, default=0.5, help='bbox score threshold')
     parser.add_argument(
         '--mix',
-        action='store_false',
+        action='store_true',
         help='whether to mix patchs and the whole image detection')
     args = parser.parse_args()
     return args
