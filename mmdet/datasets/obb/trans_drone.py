@@ -31,7 +31,7 @@ class TDDataset(CustomDataset):
         """
         if ann_file.endswith('pkl'):
             annfile = osp.join(ann_file, 'patch_annfile.pkl')
-            return ann_file['content']
+            return annfile['content']
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
