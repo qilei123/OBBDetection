@@ -2,7 +2,7 @@ import itertools
 import logging
 import os.path as osp
 import tempfile
-
+import random
 import mmcv
 import numpy as np
 from mmcv.utils import print_log
@@ -65,7 +65,7 @@ class TDDataset(CustomDataset):
             ann_info = self.coco.load_anns(ann_ids)
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
-        return contents
+        return random.shuffle(contents)
     def get_cat_ids(self, idx):
         """Get COCO category ids by index.
 
