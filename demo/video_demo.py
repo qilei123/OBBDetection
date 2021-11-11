@@ -3,13 +3,15 @@ import argparse
 import cv2
 import torch
 
-from mmdet.apis import inference_detector, init_detector, show_result_pyplot
-
+from mmdet.apis import inference_detector, init_detector
+from mmdet.apis import inference_detector_huge_image
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MMDetection webcam demo')
     parser.add_argument('config', help='test config file path')
     parser.add_argument('checkpoint', help='checkpoint file')
+    parser.add_argument(
+        '--split', type=str, default='', help='split configs in BboxToolkit/tools/split_configs')
     parser.add_argument(
         '--device', type=str, default='cuda:0', help='CPU/CUDA device option')
     parser.add_argument(
@@ -37,15 +39,21 @@ def main():
             args.out_dir, fourcc, video_reader.get(cv2.CAP_PROP_FPS),
             (int(video_reader.get(cv2.CAP_PROP_FRAME_WIDTH)),
             int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))))
-
-
-    while True:
-        ret_val, img = video_reader.read()
-        result = inference_detector(model, img)
+    
+    ret_val, img = video_reader.read()
+    while ret_val:
+        
+        if args.split:
+            result = inference_detector(model, img)
+        else:
+            nms_cfg = dict(type='BT_nms', iou_thr=0.5)
+            result = inference_detector_huge_image(model,img,args.split,nms_cfg)
 
         img = model.show_result(img, result, show=False)
-        if args.out_dir:
+        if video_writer:
             video_writer.write(img)
+
+        ret_val, img = video_reader.read()
 
 if __name__ == '__main__':
     main()
