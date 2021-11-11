@@ -30,8 +30,8 @@ class TDDataset(CustomDataset):
             list[dict]: Annotation info from COCO api.
         """
         if ann_file.endswith('pkl'):
-            annfile = osp.join(ann_file, 'patch_annfile.pkl')
-            return annfile['content']
+            ann_dict = mmcv.load(ann_file)
+            return ann_dict['content']
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
