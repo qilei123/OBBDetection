@@ -46,7 +46,7 @@ def main():
     ret_val, img = video_reader.read()
     while ret_val:
         
-        if args.split:
+        if not args.split:
             result = inference_detector(model, img)
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.5)
