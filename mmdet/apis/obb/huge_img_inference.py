@@ -122,7 +122,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
     sizes, steps = parse_split_cfg(split_cfg)
     windows = get_windows(width, height, sizes, steps)
     if mix:
-        windows.append([0,0,width,height])
+        np.append(windows, [[0,0,width,height]],axis = 0)
     # detection loop
     results = []
     #prog_bar = mmcv.ProgressBar(len(windows))
