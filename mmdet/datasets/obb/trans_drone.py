@@ -29,6 +29,9 @@ class TDDataset(CustomDataset):
         Returns:
             list[dict]: Annotation info from COCO api.
         """
+        if ann_file.endwith('pkl'):
+            annfile = osp.join(ann_file, 'patch_annfile.pkl')
+            return ann_file['content']
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
