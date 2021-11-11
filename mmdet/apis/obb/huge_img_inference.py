@@ -121,7 +121,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
     height, width = img.shape[:2]
     sizes, steps = parse_split_cfg(split_cfg)
     windows = get_windows(width, height, sizes, steps)
-    print(windows)
+    
     # detection loop
     results = []
     prog_bar = mmcv.ProgressBar(len(windows))
@@ -145,7 +145,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg):
     print()
     print('Merge patch results!!')
     results = merge_patch_results(results, windows, merge_cfg)
-    return results
+    return results,windows
 
 
 def merge_patch_results(results, windows, nms_cfg):
