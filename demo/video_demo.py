@@ -6,6 +6,9 @@ import torch
 from mmdet.apis import inference_detector, init_detector
 from mmdet.apis import inference_detector_huge_image
 
+import warnings
+warnings.filterwarnings('ignore')
+
 def parse_args():
     parser = argparse.ArgumentParser(description='MMDetection webcam demo')
     parser.add_argument('config', help='test config file path')
