@@ -20,6 +20,14 @@ class TDDataset(CustomDataset):
                     'Large 1-piece vehicle',
                     'Extra-large 2-piece truck',)
     coco_type = True
+
+    def __init__(self,
+                 classes = None,
+                 *args,
+                 **kwargs):
+        if classes:
+            self.CLASSES = classes
+        super(TDDataset, self).__init__(*args, **kwargs)
     def load_annotations(self, ann_file):
         """Load annotation from COCO style annotation file.
 
