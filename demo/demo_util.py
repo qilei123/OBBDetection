@@ -31,8 +31,7 @@ def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
 
 def show_obbresult(frame, result, score_thr = 0.3):
-
-    bbox_results = result
+    bbox_results = np.vstack(result)
     cat_ids = list(range(1,len(bbox_results)+1))
     bboxes, scores = bbox_results[:, :-1], bbox_results[:, -1]
     bboxes = np.vstack(bbox_results)
