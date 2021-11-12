@@ -41,7 +41,7 @@ class VDDataset(CustomDataset):
             ann_info = self.coco.load_anns(ann_ids)
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
-
+        '''
         save_content = dict(cls = self.CLASSES,content = contents)
         if self.test_mode:
             save_content_dir = "/home/qilei/DATASETS/trans_drone/andover_worster/split_set_test/annfiles/vd_annfile.pkl"
@@ -49,6 +49,7 @@ class VDDataset(CustomDataset):
         else:
             save_content_dir = "/home/qilei/DATASETS/trans_drone/andover_worster/split_set_train/annfiles/vd_annfile.pkl"
             pickle.dump(save_content,open(save_content_dir, 'wb'))
+        '''
         return contents
 
     def get_cat_ids(self, idx):
