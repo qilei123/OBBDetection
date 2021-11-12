@@ -139,8 +139,8 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
             data['img_metas'] = data['img_metas'][0].data
 
         # forward the model
-        with torch.no_grad():
-            results.append(model(return_loss=False, rescale=True, **data))
+        #with torch.no_grad():
+        #    results.append(model(return_loss=False, rescale=True, **data))
         #prog_bar.update()
     # merge results
     #print()
