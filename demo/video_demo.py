@@ -2,7 +2,7 @@ import argparse
 
 import cv2
 import torch
-
+import os
 from mmdet.apis import inference_detector, init_detector
 from mmdet.apis import inference_detector_huge_image
 from demo_util import *
@@ -21,6 +21,10 @@ def parse_args():
         '--video_dir', type=str, default='', help='video_dir')
     parser.add_argument(
         '--out_dir', type=str, default='', help='out_dir')
+    parser.add_argument(
+        '--save_imgs',
+        action='store_true',
+        help='whether to save images every second 1 frame as fps is 30')
     parser.add_argument(
         '--score-thr', type=float, default=0.5, help='bbox score threshold')
     parser.add_argument(
@@ -48,16 +52,23 @@ def main():
             int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     
     ret_val, img = video_reader.read()
+    frame_number = 0
     while ret_val:
-        
+        frame_number+=1
         if not args.split:
             result = inference_detector(model, img)
         else:
-            nms_cfg = dict(type='BT_nms', iou_thr=0.5)
+            nms_cfg = dict(type='BT_nms', iou_thr=0.1)
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         #img = model.show_result(img, result, show=False)
         img = show_obbresult(img,result)
+        if args.save_imgs and frame_number%30==0:
+            if not os.path.exist(args.out_dir[:-4]):
+                os.makedirs(args.out_dir[:-4])
+            save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
+            cv2.imwrite(save_img_dir,img)
+
         if video_writer:
             video_writer.write(img)
 
