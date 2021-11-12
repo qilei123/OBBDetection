@@ -57,7 +57,7 @@ def main():
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         #img = model.show_result(img, result, show=False)
-        img = show_result(img,result)
+        img = show_obbresult(img,result)
         if video_writer:
             video_writer.write(img)
 
