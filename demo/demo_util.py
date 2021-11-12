@@ -38,15 +38,13 @@ def show_obbresult(frame, result, score_thr = 0.3):
             segm_result = segm_result[0]  # ms rcnn
     else:
         bbox_result, segm_result = result, None
-
-    bbox_results = np.vstack(bbox_result)
-    bboxes, scores = bbox_results[:, :-1], bbox_results[:, -1]
-    bboxes = np.vstack(bbox_results)
+    bboxes = np.vstack(bbox_result)
     labels = [
         np.full(bbox.shape[0], i, dtype=np.int32)
-        for i, bbox in enumerate(bbox_results)
+        for i, bbox in enumerate(bbox_result)
     ]
     labels = np.concatenate(labels)
+    bboxes, scores = bboxes[:, :-1], bboxes[:, -1]
     frame = bt.imshow_bboxes(
         frame,
         bboxes,
