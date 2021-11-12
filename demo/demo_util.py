@@ -31,7 +31,15 @@ def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
 
 def show_obbresult(frame, result, score_thr = 0.3):
-    bbox_results = np.vstack(result)
+
+    if isinstance(result, tuple):
+        bbox_result, segm_result = result
+        if isinstance(segm_result, tuple):
+            segm_result = segm_result[0]  # ms rcnn
+    else:
+        bbox_result, segm_result = result, None
+
+    bbox_results = np.vstack(bbox_result)
     bboxes, scores = bbox_results[:, :-1], bbox_results[:, -1]
     bboxes = np.vstack(bbox_results)
     labels = [
