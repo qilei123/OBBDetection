@@ -3,7 +3,7 @@ import os
 import glob
 
 
-root_dir = "/home/qilei/DATASETS/trans_drone/andover_worster/split_set_test"
+root_dir = "/home/qilei/DATASETS/trans_drone/andover_worster/split_set_train"
 pkl_dir = root_dir+"/annfiles/*.pkl"
 save_dir = root_dir+"/annfiles2/mixmorepatch.pkl"
 pkl_list = glob.glob(pkl_dir)
