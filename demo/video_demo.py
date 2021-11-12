@@ -64,7 +64,7 @@ def main():
         #img = model.show_result(img, result, show=False)
         img = show_obbresult(img,result)
         if args.save_imgs and frame_number%30==0:
-            if not os.path.exist(args.out_dir[:-4]):
+            if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
             save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
             cv2.imwrite(save_img_dir,img)
