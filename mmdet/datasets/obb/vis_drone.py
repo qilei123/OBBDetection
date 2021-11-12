@@ -2,7 +2,7 @@ import itertools
 import logging
 import os.path as osp
 import tempfile
-
+import pickle
 import mmcv
 import numpy as np
 from mmcv.utils import print_log
@@ -11,7 +11,7 @@ from pycocotools.coco import COCO
 from mmdet.core import eval_arb_map, eval_arb_recalls
 from ..builder import DATASETS
 from ..custom import CustomDataset
-
+import BboxToolkit as bt
 
 @DATASETS.register_module()
 class VDDataset(CustomDataset):
@@ -41,6 +41,12 @@ class VDDataset(CustomDataset):
             ann_info = self.coco.load_anns(ann_ids)
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
+            
+        save_content = dict(cls = self.CLASSES,content = contents)
+        if self.test_mode:
+            pickle.dump(save_content,"/home/qilei/DATASETS/trans_drone/andover_worster/split_set_test/annfiles/vd_annfile.pkl")
+        else:
+            pickle.dump(save_content,"/home/qilei/DATASETS/trans_drone/andover_worster/split_set_train/annfiles/vd_annfile.pkl")
         return contents
 
     def get_cat_ids(self, idx):
