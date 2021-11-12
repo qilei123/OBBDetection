@@ -41,6 +41,12 @@ class VDDataset(CustomDataset):
             ann_info = self.coco.load_anns(ann_ids)
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
+
+        label_counts = [0,0,0,0,0]
+        for data_info in contents:
+            for label in data_info['ann']['labels']:
+                label_counts[int(label)]+=1
+        print(label_counts)
         '''
         save_content = dict(cls = self.CLASSES,content = contents)
         if self.test_mode:
