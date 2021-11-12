@@ -54,7 +54,7 @@ def main():
     ret_val, img = video_reader.read()
     frame_number = 0
     while ret_val:
-        frame_number+=1
+        
         if not args.split:
             result = inference_detector(model, img)
         else:
@@ -73,6 +73,7 @@ def main():
             video_writer.write(img)
 
         ret_val, img = video_reader.read()
+        frame_number+=1
 
 if __name__ == '__main__':
     main()
