@@ -32,13 +32,13 @@ def bbox2polygon(bbox):
 
 def show_obbresult(frame, result, score_thr = 0.3):
     bbox_results = np.vstack(result)
-    cat_ids = list(range(1,len(bbox_results)+1))
     bboxes, scores = bbox_results[:, :-1], bbox_results[:, -1]
     bboxes = np.vstack(bbox_results)
     labels = [
         np.full(bbox.shape[0], i, dtype=np.int32)
         for i, bbox in enumerate(bbox_results)
     ]
+    labels = np.concatenate(labels)
     frame = bt.imshow_bboxes(
         frame,
         bboxes,
