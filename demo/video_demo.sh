@@ -27,6 +27,7 @@
 #     --video_dir /home/qilei/DATASETS/trans_drone/trans_drone_videos2/DJI_0063.MOV \
 #     --out_dir /home/qilei/DATASETS/trans_drone/DJI_0063_mixpatch.MOV --mix
 
+export CUDA_VISIBLE_DEVICES=1
 python demo/video_demo.py \
     configs/obb/app/trans_drone/fcos_obb_r50_fpn_gn-head_4x4_1x_td_mixmorepatch.py \
     data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_mixmorepatch/latest.pth \
