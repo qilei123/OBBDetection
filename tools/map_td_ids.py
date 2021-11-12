@@ -13,4 +13,13 @@ for pkl_dir in pkl_list:
     data = pickle.load(open(pkl_dir,'rb'))
     old_contents = data['content']
     for content in old_contents:
+        count = 0
+        for label in content['ann']['labels']:
+            if label>0:
+                content['ann']['labels'][count] = 1
+            count+=1
         print(content)
+        contents.append(content)
+
+new_data = dict(cls = classes,content = contents)
+pickle.dump(new_data, open(save_dir, 'wb'))
