@@ -66,7 +66,7 @@ test_cfg = dict(
     max_per_img=200)
 # optimizer
 optimizer = dict(
-    lr=0.005, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
+    lr=0.0025, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
 optimizer_config = dict(
     _delete_=True, grad_clip=dict(max_norm=35, norm_type=2))
 
