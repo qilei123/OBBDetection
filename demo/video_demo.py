@@ -5,7 +5,7 @@ import torch
 
 from mmdet.apis import inference_detector, init_detector
 from mmdet.apis import inference_detector_huge_image
-
+from demo_util import *
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -57,6 +57,7 @@ def main():
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         #img = model.show_result(img, result, show=False)
+        img = show_result(img,result)
         if video_writer:
             video_writer.write(img)
 
