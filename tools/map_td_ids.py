@@ -18,7 +18,7 @@ for pkl_dir in pkl_list:
             if label>0:
                 content['ann']['labels'][count] = 1
             count+=1
-        print(content)
+        #print(content)
         contents.append(content)
 
 new_data = dict(cls = classes,content = contents)
