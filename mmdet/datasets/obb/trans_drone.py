@@ -53,7 +53,7 @@ class TDDataset(CustomDataset):
             else:
                 data_infos = contents
             
-            label_counts = [0,0,0]
+            label_counts = [0,0,0,0]
             for data_info in data_infos:
                 for label in data_info['ann']['labels']:
                     label_counts[int(label)]+=1
