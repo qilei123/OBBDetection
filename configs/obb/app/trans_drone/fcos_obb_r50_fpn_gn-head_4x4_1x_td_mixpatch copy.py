@@ -8,6 +8,7 @@ img_rescale_ratio = 0.25
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+classes = ('car','other_vehicle',)
 # model settings
 model = dict(
     type='FCOSOBB',
@@ -32,7 +33,7 @@ model = dict(
         relu_before_extra_convs=True),
     bbox_head=dict(
         type='OBBFCOSHead',
-        num_classes=3,
+        num_classes=2,
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
@@ -111,15 +112,18 @@ data = dict(
     train=dict(
         ann_file=data_root + 'split_set_train/annfiles/*.pkl',
         img_prefix=data_root + 'split_set_train/images/',    
-        pipeline=train_pipeline),
+        pipeline=train_pipeline,
+        classes=classes),
     val=dict(
         ann_file=data_root + 'split_set_test/annfiles/*.pkl',
         img_prefix=data_root + 'split_set_test/images/',   
-        pipeline=test_pipeline),
+        pipeline=test_pipeline,
+        classes=classes),
     test=dict(
         ann_file=data_root + 'split_set_test/annfiles/*.pkl',
         img_prefix=data_root + 'split_set_test/images/',   
-        pipeline=test_pipeline))
+        pipeline=test_pipeline,
+        classes=classes))
 
 # learning policy
 lr_config = dict(
@@ -129,4 +133,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_mixpatch'
+work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_mixmorepatch'
