@@ -26,6 +26,7 @@ def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
 
 def show_result(frame, result, score_thr = 0.3,show_bbox = True, show_mask = True):
+    print(result)
     bbox_results, segm_results = result
     cat_ids = list(range(1,len(bbox_results)+1))
 
