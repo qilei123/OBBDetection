@@ -26,7 +26,7 @@ def draw_bbox(frame,bbox,cat_id,color):
 def draw_obb_box(frame,bbox,cat_id,color):
     x, y, w, h, angle, score = bbox
     print(bbox)
-    obb = cv2.boxPoints(((x,y),(h,w),angle*180))
+    obb = cv2.boxPoints(((x,y),(w,h),angle*180))
     obb_box = np.int0(obb)
     cv2.drawContours(frame,[obb_box],0,color,1)
     return frame
