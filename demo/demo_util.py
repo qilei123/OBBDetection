@@ -23,10 +23,24 @@ def draw_bbox(frame,bbox,cat_id,color):
                     1, color, 3, cv2.LINE_AA)
     return frame
 
+pi = 3.141592
+
+def regular_theta(theta, mode='180', start=-pi/2):
+    assert mode in ['360', '180']
+    cycle = 2 * pi if mode == '360' else pi
+
+    theta = theta - start
+    theta = theta % cycle
+    return theta + start
+
 def draw_obb_box(frame,bbox,cat_id,color):
     x, y, w, h, angle, score = bbox
+    w_regular = np.where(w > h, w, h)
+    h_regular = np.where(w > h, h, w)
+    theta_regular = np.where(w > h, angle, angle+pi/2)
+    theta_regular = regular_theta(theta_regular)
     print(bbox)
-    obb = cv2.boxPoints(((x,y),(w,h),angle/3.14*180))
+    obb = cv2.boxPoints(((x,y),(w_regular,h_regular),theta_regular))
     obb_box = np.int0(obb)
     cv2.drawContours(frame,[obb_box],0,color,1)
     return frame
