@@ -41,7 +41,7 @@ def draw_obb_box(frame,bbox,cat_id,color):
     theta_regular = regular_theta(theta_regular)
     obb = cv2.boxPoints(((x,y),(w_regular.item(),h_regular.item()),-180*theta_regular/pi))
     obb_box = np.int0(obb)
-    cv2.drawContours(frame,[obb_box],0,color,1)
+    cv2.drawContours(frame,[obb_box],0,color,2)
     return frame
 
 def bbox2polygon(bbox):
@@ -56,7 +56,7 @@ def show_obb_result(frame, result, score_thr = 0.3,show_bbox = True):
         for cat_bbox in cat_bbox_results:
             if cat_bbox[-1]>=score_thr:
                 if show_bbox:
-                    frame = draw_obb_box(frame,cat_bbox,cat_id,(255,0,0))
+                    frame = draw_obb_box(frame,cat_bbox,cat_id,(0,0,255))
 
     return frame
 
