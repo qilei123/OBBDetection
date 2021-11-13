@@ -72,7 +72,7 @@ def main():
 
         if video_writer:
             video_writer.write(img)
-
+        break
         ret_val, img = video_reader.read()
         frame_number+=1
 
