@@ -39,8 +39,6 @@ def draw_obb_box(frame,bbox,cat_id,color):
     h_regular = np.where(w > h, h, w)
     theta_regular = np.where(w > h, angle, angle+pi/2)
     theta_regular = regular_theta(theta_regular)
-    print(bbox)
-    print(((x,y),(w_regular,h_regular),theta_regular))
     obb = cv2.boxPoints(((x,y),(w_regular.item(),h_regular.item()),-180*theta_regular/pi))
     obb_box = np.int0(obb)
     cv2.drawContours(frame,[obb_box],0,color,1)
