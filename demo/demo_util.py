@@ -25,10 +25,26 @@ def draw_bbox(frame,bbox,cat_id,color):
 
 def draw_obb_box(frame,bbox,cat_id,color):
     x, y, w, h, angle, score = bbox
+    obb = cv2.boxPoints(bbox[:-1])
+    obb_box = np.int0(obb)
+    cv2.drawContours(frame,[obb_box],0,color,1)
     return frame
 
 def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
+
+def show_obb_result(frame, result, score_thr = 0.3,show_bbox = True):
+
+    bbox_results = result
+    cat_ids = list(range(1,len(bbox_results)+1))
+
+    for cat_bbox_results,cat_id in zip(bbox_results,cat_ids):
+        for cat_bbox in cat_bbox_results:
+            if cat_bbox[-1]>=score_thr:
+                if show_bbox:
+                    frame = draw_obb_box(frame,cat_bbox,cat_id,(255,0,0))
+
+    return frame
 
 def show_obbresult(frame, result, score_thr = 0.3):
 

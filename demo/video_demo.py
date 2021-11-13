@@ -62,7 +62,8 @@ def main():
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         #img = model.show_result(img, result, show=False)
-        img = show_obbresult(img,result)
+        #img = show_obbresult(img,result)
+        img = show_obb_result(img,result)
         if args.save_imgs and frame_number%30==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
