@@ -145,7 +145,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
     # merge results
     #print()
     #print('Merge patch results!!')
-    results = merge_patch_results(results, windows, merge_cfg)
+    results = merge_patch_results_mcls(results, windows, merge_cfg)
     #torch.cuda.empty_cache()
     return results
 
@@ -203,7 +203,7 @@ def fast_inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = Fa
     # merge results
     #print()
     #print('Merge patch results!!')
-    results = merge_patch_results_mcls(results, windows, merge_cfg)
+    results = merge_patch_results(results, windows, merge_cfg)
     #torch.cuda.empty_cache()
     return results
 
@@ -248,9 +248,9 @@ def merge_patch_results_mcls(results, windows, nms_cfg):
             cls_result.append(np.concatenate([bboxes, scores], axis=1))
 
         cls_result = np.concatenate(cls_result, axis=0)
-    print(len(cls_result))
+    #print(len(cls_result))
     _results, inds = nms_op(cls_result, **nms_cfg_)
-    print(len(cls_result))
+    #print(len(cls_result))
 
     #_results.append(_result)
     return [_results]
