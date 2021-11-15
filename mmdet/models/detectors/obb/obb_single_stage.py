@@ -121,4 +121,5 @@ class OBBSingleStageDetector(OBBBaseDetector):
 
     def aug_test(self, imgs, img_metas, rescale=False):
         """Test function with test time augmentation"""
-        raise NotImplementedError
+        #raise NotImplementedError
+        return self.simple_test(imgs,img_metas,rescale)
