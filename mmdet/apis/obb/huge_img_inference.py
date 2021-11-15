@@ -203,7 +203,7 @@ def fast_inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = Fa
     # merge results
     #print()
     #print('Merge patch results!!')
-    results = merge_patch_results(results, windows, merge_cfg)
+    results = merge_patch_results_mcls(results, windows, merge_cfg)
     #torch.cuda.empty_cache()
     return results
 
