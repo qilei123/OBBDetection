@@ -53,6 +53,8 @@ def main():
     
     ret_val, img = video_reader.read()
     frame_number = 0
+    if frame_number>0:
+        video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
     while ret_val:
         
         if not args.split:
