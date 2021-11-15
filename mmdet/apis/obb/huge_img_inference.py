@@ -131,14 +131,14 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
         data['patch_win'] = win.tolist()
         data = test_pipeline(data)
         data = collate([data], samples_per_gpu=1)
-        print(data)
+        
         if is_cuda:
             # scatter to specified GPU
             data = scatter(data, [device])[0]
         else:
             # just get the actual data from DataContainer
             data['img_metas'] = data['img_metas'][0].data
-
+        print(**data)
         # forward the model
         with torch.no_grad():
             results.append(model(return_loss=False, rescale=True, **data))
