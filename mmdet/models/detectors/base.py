@@ -136,7 +136,7 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
                 raise TypeError(f'{name} must be a list, but got {type(var)}')
 
         num_augs = len(imgs)
-        print(num_augs)
+        
         if num_augs != len(img_metas):
             raise ValueError(f'num of augmentations ({len(imgs)}) '
                              f'!= num of image meta ({len(img_metas)})')
