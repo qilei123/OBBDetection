@@ -4,7 +4,7 @@ import cv2
 import torch
 import os
 from mmdet.apis import inference_detector, init_detector
-from mmdet.apis import inference_detector_huge_image
+from mmdet.apis import inference_detector_huge_image,fast_inference_detector_huge_image
 from demo_util import *
 import warnings
 warnings.filterwarnings('ignore')
@@ -59,7 +59,7 @@ def main():
             result = inference_detector(model, img)
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
-            result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
+            result = fast_inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
             #print(windows)
         #img = model.show_result(img, result, show=False)
         #img = show_obbresult(img,result)

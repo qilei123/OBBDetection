@@ -98,7 +98,6 @@ def parse_split_cfg(split_cfg):
             _steps.append(round((size - gap) / rate))
     return _sizes, _steps
 
-
 def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
     cfg = model.cfg
     device = next(model.parameters()).device  # model device
@@ -138,7 +137,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
         else:
             # just get the actual data from DataContainer
             data['img_metas'] = data['img_metas'][0].data
-        print(data)
+        
         # forward the model
         with torch.no_grad():
             results.append(model(return_loss=False, rescale=True, **data))
@@ -150,6 +149,63 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
     #torch.cuda.empty_cache()
     return results
 
+def fast_inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
+    cfg = model.cfg
+    device = next(model.parameters()).device  # model device
+    # build the data pipeline
+    test_pipeline = [LoadPatch()] + cfg.data.test.pipeline[1:]
+    test_pipeline = Compose(test_pipeline)
+    # assert model
+    is_cuda = next(model.parameters()).is_cuda
+    if not is_cuda:
+        # Use torchvision ops for CPU mode instead
+        for m in model.modules():
+            if isinstance(m, (RoIPool, RoIAlign)):
+                if not m.aligned:
+                    # aligned=False is not implemented on CPU
+                    # set use_torchvision on-the-fly
+                    m.use_torchvision = True
+        warnings.warn('We set use_torchvision=True in CPU mode.')
+    # generate patch windows
+    img = mmcv.imread(img)
+    height, width = img.shape[:2]
+    sizes, steps = parse_split_cfg(split_cfg)
+    windows = get_windows(width, height, sizes, steps)
+    if mix:
+        np.append(windows, [[0,0,width,height]],axis = 0)
+    # detection loop
+    results = []
+    datas = dict()
+    datas['img'] = []
+    datas['img_metas'] = []
+    #prog_bar = mmcv.ProgressBar(len(windows))
+    for win in windows:
+        data = dict(img=img)
+        data['patch_win'] = win.tolist()
+        data = test_pipeline(data)
+
+        datas['img'].append(data['img'][0])
+        datas['img_metas'].append(data['img_metas'][0])
+
+    datas = collate([datas], samples_per_gpu=1)
+    
+    if is_cuda:
+        # scatter to specified GPU
+        datas = scatter(datas, [device])[0]
+    else:
+        # just get the actual data from DataContainer
+        data['img_metas'] = data['img_metas'][0].data
+    
+    # forward the model
+    with torch.no_grad():
+        results = model(return_loss=False, rescale=True, **datas)
+        #prog_bar.update()
+    # merge results
+    #print()
+    #print('Merge patch results!!')
+    results = merge_patch_results(results, windows, merge_cfg)
+    #torch.cuda.empty_cache()
+    return results
 
 def merge_patch_results(results, windows, nms_cfg):
     nms_cfg_ = nms_cfg.copy()
