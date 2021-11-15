@@ -183,7 +183,7 @@ def fast_inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = Fa
         data = dict(img=img)
         data['patch_win'] = win.tolist()
         data = test_pipeline(data)
-
+        print(data)
         datas['img'].append(data['img'][0])
         datas['img_metas'].append(data['img_metas'][0])
 
