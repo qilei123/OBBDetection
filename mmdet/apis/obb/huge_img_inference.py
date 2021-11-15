@@ -228,3 +228,26 @@ def merge_patch_results(results, windows, nms_cfg):
         _result, _ = nms_op(cls_result, **nms_cfg_)
         _results.append(_result)
     return _results
+
+def merge_patch_results_mcls(results, windows, nms_cfg):
+    nms_cfg_ = nms_cfg.copy()
+    nms_type = nms_cfg_.pop('type', 'BT_nms')
+    try:
+        nms_op = getattr(nms_rotated, nms_type)
+    except AttributeError:
+        nms_op = getattr(nms, nms_type)
+
+    _results = []
+    cls_result = []
+    for _cls_result in zip(*results):
+        for dets, win in zip(_cls_result, windows):
+            bboxes, scores = dets[:, :-1], dets[:, [-1]]
+            x_start, y_start = win[:2]
+            bboxes = bt.translate(bboxes, x_start, y_start)
+            cls_result.append(np.concatenate([bboxes, scores], axis=1))
+
+        cls_result = np.concatenate(cls_result, axis=0)
+    
+    _results, inds = nms_op(cls_result, **nms_cfg_)
+    #_results.append(_result)
+    return [_results]
