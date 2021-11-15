@@ -138,7 +138,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
         else:
             # just get the actual data from DataContainer
             data['img_metas'] = data['img_metas'][0].data
-        print(**data)
+        
         # forward the model
         with torch.no_grad():
             results.append(model(return_loss=False, rescale=True, **data))
