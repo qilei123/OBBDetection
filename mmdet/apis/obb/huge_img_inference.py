@@ -131,6 +131,7 @@ def inference_detector_huge_image(model, img, split_cfg, merge_cfg,mix = False):
         data['patch_win'] = win.tolist()
         data = test_pipeline(data)
         data = collate([data], samples_per_gpu=1)
+        print(data)
         if is_cuda:
             # scatter to specified GPU
             data = scatter(data, [device])[0]
