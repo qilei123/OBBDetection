@@ -393,7 +393,14 @@ class RandomOBBRotate(object):
     def __call__(self, results):
         print("----------------before-----------------")
         print(results)
+        
+        for box in results['ann']['bboxes']:
+            cv2.line(results['img'], (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), thickness=1)
+            cv2.line(results['img'], (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 255, 0), thickness=1)
+            cv2.line(results['img'], (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 255, 0), thickness=1)
+            cv2.line(results['img'], (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 255, 0), thickness=1)
         cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg",results['img'])
+
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
             results['angle'] = self.get_random_angle(results)
