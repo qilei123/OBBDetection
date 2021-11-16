@@ -391,6 +391,7 @@ class RandomOBBRotate(object):
         # return False
 
     def __call__(self, results):
+        print("----------------before-----------------")
         print(results)
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
@@ -433,6 +434,7 @@ class RandomOBBRotate(object):
 
         for k in results.get('seg_fields', []):
             results[k] = cv2.warpAffine(results[k], matrix, (w, h))
+        print("---------------after------------------")
         print(results)
         exit(0)
         return results
