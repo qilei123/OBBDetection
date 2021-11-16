@@ -396,10 +396,10 @@ class RandomOBBRotate(object):
         
         for box in results['ann_info']['bboxes']:
             img = np.array(results['img'])
-            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 255, 0), thickness=1)
+            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
         cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg",img)
 
         results['rotate_after_flip'] = self.rotate_after_flip
@@ -447,10 +447,10 @@ class RandomOBBRotate(object):
         print(results)
         for box in results['ann_info']['bboxes']:
             img = np.array(results['img'])
-            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 255, 0), thickness=1)
-            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 255, 0), thickness=1)
+            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 0, 255), thickness=1)
+            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
         cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg",results['img'])
         exit(0)
         return results
