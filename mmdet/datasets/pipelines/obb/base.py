@@ -284,6 +284,7 @@ class OBBCollect(Collect):
                             'pad_shape', 'scale_factor', 'h_flip', 'v_flip', 'angle',
                             'matrix', 'rotate_after_flip', 'img_norm_cfg')):
         super(OBBCollect, self).__init__(keys, meta_keys)
+        exit(0)
 
 
 @PIPELINES.register_module()
@@ -453,7 +454,7 @@ class RandomOBBRotate(object):
         print("---------------after------------------")
         print(results)
         vis(results,"/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg")
-        exit(0)
+        
         return results
 
 
