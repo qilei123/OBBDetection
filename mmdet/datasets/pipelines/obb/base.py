@@ -245,7 +245,6 @@ class Mask2OBB(object):
                 results[obb_k] = obb
         print("---------------mask2obb-----------------")
         vis(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
-        exit(0)
         return results
 
 
@@ -273,6 +272,9 @@ class OBBDefaultFormatBundle(DefaultFormatBundle):
         if 'gt_semantic_seg' in results:
             results['gt_semantic_seg'] = DC(
                 to_tensor(results['gt_semantic_seg'][None, ...]), stack=True)
+        print("---------------OBBDefaultFormatBundle-----------------")
+        vis(results,"/home/qilei/DATASETS/trans_drone/temp/OBBDefaultFormatBundle.jpg")
+        exit(0)
         return results
 
 
