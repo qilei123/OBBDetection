@@ -243,6 +243,7 @@ class Mask2OBB(object):
                 mask = results[mask_k]
                 obb = trans_func(mask)
                 results[obb_k] = obb
+        vis(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
         return results
 
 
