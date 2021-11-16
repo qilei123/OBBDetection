@@ -433,6 +433,7 @@ class RandomOBBRotate(object):
         for k in results.get('seg_fields', []):
             results[k] = cv2.warpAffine(results[k], matrix, (w, h))
         print(results)
+        exit(0)
         return results
 
 
