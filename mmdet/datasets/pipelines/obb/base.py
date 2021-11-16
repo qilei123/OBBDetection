@@ -269,9 +269,6 @@ class Mask2OBB(object):
                 mask = results[mask_k]
                 obb = trans_func(mask)
                 results[obb_k] = obb
-        print("---------------mask2obb-----------------")
-        print(results)
-        vis_obb(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
         return results
 
 
@@ -299,9 +296,6 @@ class OBBDefaultFormatBundle(DefaultFormatBundle):
         if 'gt_semantic_seg' in results:
             results['gt_semantic_seg'] = DC(
                 to_tensor(results['gt_semantic_seg'][None, ...]), stack=True)
-        print("---------------OBBDefaultFormatBundle-----------------")
-        vis(results,"/home/qilei/DATASETS/trans_drone/temp/OBBDefaultFormatBundle.jpg")
-        exit(0)
         return results
 
 
@@ -436,10 +430,6 @@ class RandomOBBRotate(object):
         # return False
 
     def __call__(self, results):
-        print("----------------before-----------------")
-        print(results)
-        vis(results,"/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg")
-
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
             results['angle'] = self.get_random_angle(results)
@@ -481,10 +471,7 @@ class RandomOBBRotate(object):
 
         for k in results.get('seg_fields', []):
             results[k] = cv2.warpAffine(results[k], matrix, (w, h))
-        print("---------------after------------------")
-        print(results)
-        vis(results,"/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg")
-        
+
         return results
 
 
