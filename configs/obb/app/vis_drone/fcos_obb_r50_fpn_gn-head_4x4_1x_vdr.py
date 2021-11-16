@@ -77,8 +77,8 @@ train_pipeline = [
     dict(type='Resize', img_scale=img_scale, keep_ratio=True),
     dict(type='OBBRandomFlip', h_flip_ratio=0.5, v_flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
-    dict(type='RandomOBBRotate', rotate_after_flip=True,
-         angles=(0, 0), vert_rate=0.5),
+    dict(type='RandomOBBRotate', rotate_after_flip=True,keep_shape=False, #not keep shape will have more black edge
+         angles=(-180, 180), vert_rate=0.5),
     dict(type='Pad', size_divisor=32),
     dict(type='Mask2OBB', obb_type='obb'),
     dict(type='OBBDefaultFormatBundle'),
@@ -128,4 +128,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/vdr/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_vdr_norotate'
+work_dir = 'data/vdr/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_vdr_rotate'
