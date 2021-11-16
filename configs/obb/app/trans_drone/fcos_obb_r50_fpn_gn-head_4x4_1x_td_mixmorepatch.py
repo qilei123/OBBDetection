@@ -67,7 +67,7 @@ test_cfg = dict(
     max_per_img=200)
 # optimizer
 optimizer = dict(
-    lr=0.005, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
+    lr=0.0025, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
 optimizer_config = dict(
     _delete_=True, grad_clip=dict(max_norm=35, norm_type=2))
 
@@ -107,8 +107,8 @@ test_pipeline = [
 # does evaluation while training
 # uncomments it  when you need evaluate every epoch
 data = dict(
-    samples_per_gpu=16,
-    workers_per_gpu=8,
+    samples_per_gpu=2,
+    workers_per_gpu=4,
     train=dict(
         ann_file=data_root + 'split_set_train/annfiles2/*.pkl',
         img_prefix=data_root + 'split_set_train/images/',    
