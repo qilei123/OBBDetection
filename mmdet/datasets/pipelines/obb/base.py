@@ -391,6 +391,7 @@ class RandomOBBRotate(object):
         # return False
 
     def __call__(self, results):
+        print(results)
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
             results['angle'] = self.get_random_angle(results)
