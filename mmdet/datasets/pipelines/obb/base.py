@@ -271,7 +271,7 @@ class Mask2OBB(object):
                 results[obb_k] = obb
         print("---------------mask2obb-----------------")
         print(results)
-        vis(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
+        vis_obb(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
         return results
 
 
