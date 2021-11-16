@@ -395,6 +395,7 @@ class RandomOBBRotate(object):
         print(results)
         
         for box in results['ann_info']['bboxes']:
+            print(box)
             cv2.line(results['img'], (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), thickness=1)
             cv2.line(results['img'], (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 255, 0), thickness=1)
             cv2.line(results['img'], (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 255, 0), thickness=1)
