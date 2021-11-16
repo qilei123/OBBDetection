@@ -245,6 +245,7 @@ class Mask2OBB(object):
                 results[obb_k] = obb
         print("---------------mask2obb-----------------")
         vis(results,"/home/qilei/DATASETS/trans_drone/temp/mask2obb.jpg")
+        exit(0)
         return results
 
 
@@ -284,7 +285,7 @@ class OBBCollect(Collect):
                             'pad_shape', 'scale_factor', 'h_flip', 'v_flip', 'angle',
                             'matrix', 'rotate_after_flip', 'img_norm_cfg')):
         super(OBBCollect, self).__init__(keys, meta_keys)
-        exit(0)
+        
 
 
 @PIPELINES.register_module()
