@@ -74,7 +74,7 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadOBBAnnotations', with_bbox=True,
          with_label=True, with_poly_as_mask=True),
-    #dict(type='Resize', img_scale=img_scale, keep_ratio=True),
+    dict(type='Resize', img_scale=img_scale, keep_ratio=True),
     #dict(type='OBBRandomFlip', h_flip_ratio=0, v_flip_ratio=0),
     #dict(type='Normalize', **img_norm_cfg),
     dict(type='RandomOBBRotate', rotate_after_flip=True,keep_shape=False,
