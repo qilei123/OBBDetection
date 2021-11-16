@@ -78,7 +78,7 @@ train_pipeline = [
     dict(type='OBBRandomFlip', h_flip_ratio=0.5, v_flip_ratio=0.5),
     #dict(type='Normalize', **img_norm_cfg),
     dict(type='RandomOBBRotate', rotate_after_flip=True,keep_shape=True,
-         angles=(45, 90), vert_rate=0.5),
+         angles=(-180, 180), vert_rate=0.5),
     dict(type='Pad', size_divisor=32),
     dict(type='Mask2OBB', obb_type='obb'),
     dict(type='OBBDefaultFormatBundle'),
