@@ -28,6 +28,32 @@ def vis(results,save_dir):
         cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
     cv2.imwrite(save_dir,img)
 
+pi = 3.141592
+
+def regular_theta(theta, mode='180', start=-pi/2):
+    assert mode in ['360', '180']
+    cycle = 2 * pi if mode == '360' else pi
+
+    theta = theta - start
+    theta = theta % cycle
+    return theta + start
+
+def draw_obb_box(frame,bbox,color):
+    x, y, w, h, angle = bbox
+    w_regular = np.where(w > h, w, h)
+    h_regular = np.where(w > h, h, w)
+    theta_regular = np.where(w > h, angle, angle+pi/2)
+    theta_regular = regular_theta(theta_regular)
+    obb = cv2.boxPoints(((x,y),(w_regular.item(),h_regular.item()),-180*theta_regular/pi))
+    obb_box = np.int0(obb)
+    cv2.drawContours(frame,[obb_box],0,color,2)
+    return frame
+
+def vis_obb(results,save_dir):
+    img = np.array(results['img'])
+    for obbox in results['gt_obboxes']:
+        draw_obb_box(img,obbox,(0, 0, 255))
+    cv2.imwrite(save_dir,img)    
 
 def mask2obb(gt_masks):
     obboxes = []
