@@ -393,6 +393,7 @@ class RandomOBBRotate(object):
     def __call__(self, results):
         print("----------------before-----------------")
         print(results)
+        cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg",results['img'])
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
             results['angle'] = self.get_random_angle(results)
@@ -436,6 +437,7 @@ class RandomOBBRotate(object):
             results[k] = cv2.warpAffine(results[k], matrix, (w, h))
         print("---------------after------------------")
         print(results)
+        cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg",results['img'])
         exit(0)
         return results
 
