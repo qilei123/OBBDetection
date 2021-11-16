@@ -1,3 +1,4 @@
+import re
 import BboxToolkit as bt
 
 import cv2
@@ -15,6 +16,17 @@ from ..loading import LoadAnnotations
 from ..formating import DefaultFormatBundle, Collect, to_tensor
 from ..transforms import RandomFlip
 from ..compose import Compose
+
+
+def vis(results,save_dir):
+
+    for box in results['ann_info']['bboxes']:
+        img = np.array(results['img'])
+        cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), thickness=1)
+        cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 0, 255), thickness=1)
+        cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 0, 255), thickness=1)
+        cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
+    cv2.imwrite(save_dir,img)
 
 
 def mask2obb(gt_masks):
@@ -393,14 +405,7 @@ class RandomOBBRotate(object):
     def __call__(self, results):
         print("----------------before-----------------")
         print(results)
-        
-        for box in results['ann_info']['bboxes']:
-            img = np.array(results['img'])
-            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
-        cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg",img)
+        vis(results,"/home/qilei/DATASETS/trans_drone/temp/before_rotate.jpg")
 
         results['rotate_after_flip'] = self.rotate_after_flip
         if 'angle' not in results:
@@ -445,13 +450,7 @@ class RandomOBBRotate(object):
             results[k] = cv2.warpAffine(results[k], matrix, (w, h))
         print("---------------after------------------")
         print(results)
-        for box in results['ann_info']['bboxes']:
-            img = np.array(results['img'])
-            cv2.line(img, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[2]), int(box[3])), (int(box[4]), int(box[5])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[4]), int(box[5])), (int(box[6]), int(box[7])), (0, 0, 255), thickness=1)
-            cv2.line(img, (int(box[6]), int(box[7])), (int(box[0]), int(box[1])), (0, 0, 255), thickness=1)
-        cv2.imwrite("/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg",results['img'])
+        vis(results,"/home/qilei/DATASETS/trans_drone/temp/after_rotate.jpg")
         exit(0)
         return results
 
