@@ -104,8 +104,8 @@ test_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=4,
-    workers_per_gpu=8,
+    samples_per_gpu=2,
+    workers_per_gpu=4,
     train=dict(
         ann_file=data_root + 'annotations/train.json',
         img_prefix=data_root + 'images/',
