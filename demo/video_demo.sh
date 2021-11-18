@@ -44,4 +44,4 @@ python demo/video_demo.py \
     data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
     --split BboxToolkit/tools/split_configs/trans_drone/aw_test.json \
     --video_dir "/home/qilei/DATASETS/trans_drone/trans_drone_videos2/${VIDEO_NAME}" \
-    --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/${VIDEO_NAME}" --mix --save_imgs
+    --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/video_results/${VIDEO_NAME}" --mix --save_imgs
