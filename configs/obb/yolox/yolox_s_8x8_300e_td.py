@@ -144,8 +144,8 @@ data = dict(
         type='MultiImageMixDataset',
         dataset=dict(
             type='CocoDataset',
-            ann_file='data/coco/annotations/instances_train2017.json',
-            img_prefix='data/coco/train2017/',
+            ann_file='data/td/annotations/train_AW_obb.json',
+            img_prefix='data/td/images/',
             pipeline=[
                 dict(type='LoadImageFromFile', to_float32=True),
                 dict(type='LoadAnnotations', with_bbox=True)
@@ -182,8 +182,8 @@ data = dict(
         dynamic_scale=(640, 640)),
     val=dict(
         type='CocoDataset',
-        ann_file='data/coco/annotations/instances_val2017.json',
-        img_prefix='data/coco/val2017/',
+        ann_file='data/td/annotations/test_AW_obb.json',
+        img_prefix='data/td/images/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -205,8 +205,8 @@ data = dict(
         ]),
     test=dict(
         type='CocoDataset',
-        ann_file='data/coco/annotations/instances_val2017.json',
-        img_prefix='data/coco/val2017/',
+        ann_file='data/td/annotations/test_AW_obb.json',
+        img_prefix='data/td/images/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
