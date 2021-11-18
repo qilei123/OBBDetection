@@ -246,6 +246,8 @@ def merge_patch_results_mcls(results, windows, nms_cfg):
         for dets, win in zip(_cls_result, windows):
             bboxes, scores = dets[:, :-1], dets[:, [-1]]
             cls_labels = [label_flag]*len(scores)
+            print(scores)
+            print(cls_labels)
             x_start, y_start = win[:2]
             bboxes = bt.translate(bboxes, x_start, y_start)
             cls_result.append(np.concatenate([bboxes, scores, cls_labels], axis=1))
