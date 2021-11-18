@@ -9,7 +9,7 @@ from .samplers import (BaseSampler, CombinedSampler,
                        PseudoSampler, RandomSampler, SamplingResult)
 from .transforms import (bbox2distance, bbox2result, bbox2roi, bbox_flip,
                          bbox_mapping, bbox_mapping_back, distance2bbox,
-                         roi2bbox)
+                         roi2bbox,bbox_xyxy_to_cxcywh)
 
 from .transforms_obb import (poly2obb, rectpoly2obb, poly2hbb, obb2poly, obb2hbb,
                              hbb2poly, hbb2obb, bbox2type, hbb_flip, obb_flip, poly_flip,
@@ -29,7 +29,7 @@ __all__ = [
     'AssignResult', 'BaseSampler', 'PseudoSampler', 'RandomSampler',
     'InstanceBalancedPosSampler', 'IoUBalancedNegSampler', 'CombinedSampler',
     'SamplingResult', 'build_assigner', 'build_sampler', 'bbox_flip',
-    'bbox_mapping', 'bbox_mapping_back', 'bbox2roi', 'roi2bbox', 'bbox2result',
+    'bbox_mapping', 'bbox_mapping_back', 'bbox2roi', 'roi2bbox', 'bbox_xyxy_to_cxcywh','bbox2result',
     'distance2bbox', 'bbox2distance', 'build_bbox_coder', 'BaseBBoxCoder',
     'PseudoBBoxCoder', 'DeltaXYWHBBoxCoder', 'TBLRBBoxCoder',
     'CenterRegionAssigner',

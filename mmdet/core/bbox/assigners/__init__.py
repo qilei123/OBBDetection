@@ -7,8 +7,9 @@ from .max_iou_assigner import MaxIoUAssigner
 from .point_assigner import PointAssigner
 
 from .obb2hbb_max_iou_assigner import OBB2HBBMaxIoUAssigner
+from .sim_ota_assigner import SimOTAAssigner
 
 __all__ = [
     'BaseAssigner', 'MaxIoUAssigner', 'ApproxMaxIoUAssigner', 'AssignResult',
-    'PointAssigner', 'ATSSAssigner', 'CenterRegionAssigner'
+    'PointAssigner', 'ATSSAssigner', 'CenterRegionAssigner', 'SimOTAAssigner'
 ]

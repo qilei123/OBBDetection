@@ -157,3 +157,17 @@ def bbox2distance(points, bbox, max_dis=None, eps=0.1):
         right = right.clamp(min=0, max=max_dis - eps)
         bottom = bottom.clamp(min=0, max=max_dis - eps)
     return torch.stack([left, top, right, bottom], -1)
+
+
+def bbox_xyxy_to_cxcywh(bbox):
+    """Convert bbox coordinates from (x1, y1, x2, y2) to (cx, cy, w, h).
+
+    Args:
+        bbox (Tensor): Shape (n, 4) for bboxes.
+
+    Returns:
+        Tensor: Converted bboxes.
+    """
+    x1, y1, x2, y2 = bbox.split((1, 1, 1, 1), dim=-1)
+    bbox_new = [(x1 + x2) / 2, (y1 + y2) / 2, (x2 - x1), (y2 - y1)]
+    return torch.cat(bbox_new, dim=-1)
