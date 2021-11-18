@@ -251,7 +251,7 @@ def merge_patch_results_mcls(results, windows, nms_cfg):
             cls_result.append(np.concatenate([bboxes, scores], axis=1))
 
     cls_result = np.concatenate(cls_result, axis=0)
-    #print(len(cls_result))
+    print(len(cls_result))
     _results, inds = nms_op(cls_result, **nms_cfg_)
     print(cls_labels)
     print(inds)
