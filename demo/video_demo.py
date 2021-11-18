@@ -66,10 +66,10 @@ def main():
             result = inference_detector(model, img)
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
-            result,cls_labels = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
+            result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
-        img = show_obb_result(img,result)
-        results = filt_results(result,cls_labels)
+        img = show_obb_result(img,*result)
+        results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         if args.save_imgs and frame_number%30==0:
             if not os.path.exists(args.out_dir[:-4]):

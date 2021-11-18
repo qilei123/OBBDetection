@@ -47,17 +47,15 @@ def draw_obb_box(frame,bbox,cat_id,color):
 def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
 
-def show_obb_result(frame, result, score_thr = 0.3,show_bbox = True):
+def show_obb_result(frame, result, cls_labels, score_thr = 0.3,show_bbox = True):
 
     bbox_results = result
-    cat_ids = list(range(1,len(bbox_results)+1))
+    cat_ids = cls_labels
 
-    for cat_bbox_results,cat_id in zip(bbox_results,cat_ids):
-        for cat_bbox in cat_bbox_results:
-            print(cat_bbox)
-            if cat_bbox[-1]>=score_thr:
-                if show_bbox:
-                    frame = draw_obb_box(frame,cat_bbox,cat_id,(0,0,255))
+    for cat_bbox,cat_id in zip(bbox_results,cat_ids):
+        if cat_bbox[-1]>=score_thr:
+            if show_bbox:
+                frame = draw_obb_box(frame,cat_bbox,cat_id,(0,0,255))
 
     return frame
 

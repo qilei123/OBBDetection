@@ -259,4 +259,4 @@ def merge_patch_results_mcls(results, windows, nms_cfg):
     #print(len(cls_result))
 
     #_results.append(_result)
-    return [_results],cls_labels
+    return _results,cls_labels
