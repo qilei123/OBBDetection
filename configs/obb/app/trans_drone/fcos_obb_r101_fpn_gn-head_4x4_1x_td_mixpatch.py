@@ -129,4 +129,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/td/work_dirs/fcos_obb_r101_fpn_gn-head_4x4_1x_td_mixpatch'
+work_dir = 'data/td/work_dirs/fcos_obb_r101_fpn_gn-head_4x4_1x_td_mixpatch_rr'
