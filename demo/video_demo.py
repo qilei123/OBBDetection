@@ -66,7 +66,7 @@ def main():
             result = inference_detector(model, img)
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
-            result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
+            result,cls_labels = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
         print(result)
 

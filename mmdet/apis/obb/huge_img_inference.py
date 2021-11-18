@@ -261,4 +261,4 @@ def merge_patch_results_mcls(results, windows, nms_cfg):
     #print(cls_labels)
 
     #_results.append(_result)
-    return np.concatenate([_results, cls_labels], axis=1)
+    return _results,cls_labels
