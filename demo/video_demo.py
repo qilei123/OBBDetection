@@ -68,9 +68,9 @@ def main():
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
             result,cls_labels = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
-        print(result)
-
         img = show_obb_result(img,result)
+        results = filt_results(result,cls_labels)
+        tmer.update_with_obbox(results,frame_number)
         if args.save_imgs and frame_number%30==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
@@ -83,5 +83,8 @@ def main():
         ret_val, img = video_reader.read()
         frame_number+=1
 
+    if isinstance( args.out,str):
+        tmer.save_results(args.out+".json")
+        json2csv(args.out+".json")
 if __name__ == '__main__':
     main()

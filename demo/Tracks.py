@@ -120,7 +120,62 @@ class tracks_manager:
             if frame_id - self.track_queue[live_id][-1].frame>5:
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)    
+    def update_with_obbox(self,bbox_results,frame_id):
+        for obbox in bbox_results:
+            max_iou = 0
+            max_iou_id = -1
+            cat_id = obbox[-1]
+            p1 = self.det2polygon(obbox[:-2])
+            for live_id in self.live_ids:
+                latest_track = self.track_queue[live_id][-1]
+                p2 = self.det2polygon(latest_track.polygon)
+                if p1.intersects(p2)>max_iou:
+                    max_iou = p1.intersects(p2)
+                    max_iou_id = live_id
+            #print(max_iou_id)
+            new_track = track()
+            new_track.cat_id = cat_id
+            new_track.frame = frame_id
+            new_track.polygon = obbox
+            center = p1.centroid.coords[0]
+            new_track.xCenter = center[0]
+            new_track.yCenter = center[1]
 
+            if max_iou_id>-1:
+                new_track.trackId = max_iou_id
+                new_track.trackLifetime = len(self.track_queue[max_iou_id])
+                
+                time_period = (new_track.frame-self.track_queue[max_iou_id][-1].frame)/self.frame_rate
+                if time_period==0:
+                    #print(frame_id)
+                    time_period = 1/self.frame_rate
+
+                new_track.xVelocity = abs(new_track.xCenter-self.track_queue[max_iou_id][-1].xCenter)/time_period
+                new_track.yVelocity = abs(new_track.yCenter-self.track_queue[max_iou_id][-1].yCenter)/time_period
+                #print(new_track.xVelocity)
+                scale = self.get_scale(new_track.xCenter,new_track.yCenter)
+                
+                new_track.lonVelocity = new_track.xVelocity*scale
+                new_track.latVelocity = new_track.yVelocity*scale
+                
+                if new_track.trackLifetime>1:
+                    new_track.xAcceleration = (new_track.xVelocity-self.track_queue[max_iou_id][-1].xVelocity)/time_period
+                    new_track.yAcceleration = (new_track.yVelocity-self.track_queue[max_iou_id][-1].yVelocity)/time_period
+                    
+                    new_track.xAcceleration = (new_track.lonVelocity-self.track_queue[max_iou_id][-1].lonVelocity)/time_period
+                    new_track.yAcceleration = (new_track.latVelocity-self.track_queue[max_iou_id][-1].latVelocity)/time_period
+
+                self.track_queue[max_iou_id].append(new_track)
+            else:
+                new_track.trackId = self.create_new_id()
+                self.track_queue[new_track.trackId] = [new_track]
+                self.live_ids.append(new_track.trackId)
+            #print(self.track_queue)
+
+        for live_id in self.live_ids:
+            if frame_id - self.track_queue[live_id][-1].frame>5:
+                self.live_ids.remove(live_id)
+                self.dead_ids.append(live_id)
     def update_with_bbox(self,bbox_results,frame_id):
         self.cat_ids = list(range(1,len(bbox_results)+1))
         for cat_id,bboxes in zip(self.cat_ids,bbox_results):
