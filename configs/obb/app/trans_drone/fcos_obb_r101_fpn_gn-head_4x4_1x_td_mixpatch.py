@@ -107,7 +107,7 @@ test_pipeline = [
 # uncomments it  when you need evaluate every epoch
 data = dict(
     samples_per_gpu=4,
-    workers_per_gpu=8,
+    workers_per_gpu=4,
     train=dict(
         ann_file=data_root + 'split_set_train/annfiles/*.pkl',
         img_prefix=data_root + 'split_set_train/images/',    
