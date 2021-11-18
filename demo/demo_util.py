@@ -149,6 +149,7 @@ def json2csv(json_file_name):
 def filt_results(obboxes,cls_labels,score_thr = 0.3):
     results = []
     for obbox, cls_label in zip(obboxes,cls_labels):
+        print(obbox)
         if obbox[-1]>score_thr:
             obbox.append(cls_label)
             results.append(obbox)
