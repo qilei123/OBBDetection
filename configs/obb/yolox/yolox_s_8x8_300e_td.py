@@ -43,7 +43,7 @@ model = dict(
         out_channels=128,
         num_csp_blocks=1),
     bbox_head=dict(
-        type='YOLOXHead', num_classes=80, in_channels=128, feat_channels=128),
+        type='YOLOXHead', num_classes=3, in_channels=128, feat_channels=128),
     train_cfg=dict(assigner=dict(type='SimOTAAssigner', center_radius=2.5)),
     test_cfg=dict(score_thr=0.01, nms=dict(type='nms', iou_threshold=0.65)))
 data_root = 'data/coco/'
@@ -228,3 +228,4 @@ data = dict(
         ]))
 interval = 10
 evaluation = dict(interval=10, metric='bbox')
+work_dir = 'data/td/work_dirs/yolox_s_8x8_300e_td'
