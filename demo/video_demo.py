@@ -6,6 +6,8 @@ import os
 from mmdet.apis import inference_detector, init_detector
 from mmdet.apis import inference_detector_huge_image,fast_inference_detector_huge_image
 from demo_util import *
+from Tracks import *
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -52,6 +54,9 @@ def main():
             int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     
     ret_val, img = video_reader.read()
+    
+    tmer = tracks_manager()
+
     frame_number = 0
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
@@ -62,9 +67,9 @@ def main():
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
-            #print(windows)
-        #img = model.show_result(img, result, show=False)
-        #img = show_obbresult(img,result)
+
+        print(result)
+
         img = show_obb_result(img,result)
         if args.save_imgs and frame_number%30==0:
             if not os.path.exists(args.out_dir[:-4]):
