@@ -35,6 +35,16 @@ def regular_theta(theta, mode='180', start=-pi/2):
     theta = theta % cycle
     return theta + start
 
+def obb2obbox(obb):
+    x, y, w, h, angle = obb
+    w_regular = np.where(w > h, w, h)
+    h_regular = np.where(w > h, h, w)
+    theta_regular = np.where(w > h, angle, angle+pi/2)
+    theta_regular = regular_theta(theta_regular)
+    obb = cv2.boxPoints(((x,y),(w_regular.item(),h_regular.item()),-180*theta_regular/pi))
+    return np.int0(obb)
+
+
 def draw_obb_box(frame,bbox,cat_id,color):
     x, y, w, h, angle, score = bbox
     w_regular = np.where(w > h, w, h)
@@ -151,5 +161,5 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
     for obbox, cls_label in zip(obboxes,cls_labels):
         print(obbox)
         if obbox[-1]>score_thr:
-            results.append(np.append(obbox,cls_label))
+            results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
