@@ -106,7 +106,7 @@ test_pipeline = [
 # does evaluation while training
 # uncomments it  when you need evaluate every epoch
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=2,
     workers_per_gpu=4,
     train=dict(
         ann_file=data_root + 'split_set_train/annfiles/*.pkl',
@@ -130,3 +130,4 @@ lr_config = dict(
     step=[16, 22])
 total_epochs = 24
 work_dir = 'data/td/work_dirs/fcos_obb_r101_fpn_gn-head_4x4_1x_td_mixpatch_rr'
+resume_from = "data/td/work_dirs/fcos_obb_r101_fpn_gn-head_4x4_1x_td_mixpatch_rr/latest.pth"
