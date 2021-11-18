@@ -82,6 +82,7 @@ def main():
         
         ret_val, img = video_reader.read()
         frame_number+=1
+        break
 
     if isinstance( args.out,str):
         tmer.save_results(args.out+".json")
