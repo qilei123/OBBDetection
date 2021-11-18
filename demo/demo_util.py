@@ -122,8 +122,8 @@ def show_result(frame, result, score_thr = 0.3,show_bbox = True, show_mask = Tru
 
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, np.float32):
-            return obj.item()
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
 import csv
