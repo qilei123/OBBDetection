@@ -29,12 +29,13 @@ from .obb.gliding_vertex import GlidingVertex
 from .obb.obb_rpn import OBBRPN
 from .obb.oriented_rcnn import OrientedRCNN
 from .obb.fcos_obb import FCOSOBB
+from .yolox import YOLOX
 
 __all__ = [
     'ATSS', 'BaseDetector', 'SingleStageDetector', 'TwoStageDetector', 'RPN',
     'FastRCNN', 'FasterRCNN', 'MaskRCNN', 'CascadeRCNN', 'HybridTaskCascade',
     'RetinaNet', 'FCOS', 'GridRCNN', 'MaskScoringRCNN', 'RepPointsDetector',
-    'FOVEA', 'FSAF', 'NASFCOS', 'PointRend', 'GFL',
+    'FOVEA', 'FSAF', 'NASFCOS', 'PointRend', 'GFL', 'YOLOX',
 
     'OBBBaseDetector', 'OBBTwoStageDetector', 'OBBSingleStageDetector',
     'FasterRCNNOBB', 'RetinaNetOBB', 'RoITransformer'
