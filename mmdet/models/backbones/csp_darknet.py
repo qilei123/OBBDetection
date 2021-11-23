@@ -257,7 +257,8 @@ class CSPDarknet(BaseModule):
             stage.append(csp_layer)
             self.add_module(f'stage{i + 1}', nn.Sequential(*stage))
             self.layers.append(f'stage{i + 1}')
-
+    def init_weights(self,pretrained=None):
+        pass
     def _freeze_stages(self):
         if self.frozen_stages >= 0:
             for i in range(self.frozen_stages + 1):
