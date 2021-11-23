@@ -89,6 +89,7 @@ class YOLOXHead(BaseDenseHead):
                  use_l1 = False):
 
         #super().__init__(init_cfg=init_cfg)
+        super().__init__()
         self.num_classes = num_classes
         self.cls_out_channels = num_classes
         self.in_channels = in_channels
