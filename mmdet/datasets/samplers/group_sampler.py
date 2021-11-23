@@ -83,6 +83,7 @@ class DistributedGroupSampler(Sampler):
         self.epoch = 0
 
         assert hasattr(self.dataset, 'flag')
+        print(self.dataset)
         self.flag = self.dataset.flag
         self.group_sizes = np.bincount(self.flag)
 
