@@ -67,7 +67,7 @@ class YOLOXHead(BaseDenseHead):
                      loss_weight=1.0),
                  loss_bbox=dict(
                      type='IoULoss',
-                     mode='square',
+                     #mode='square',
                      eps=1e-16,
                      reduction='sum',
                      loss_weight=5.0),
