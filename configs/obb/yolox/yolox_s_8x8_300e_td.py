@@ -69,7 +69,8 @@ train_pipeline = [
         hue_delta=18),
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(type='Resize', keep_ratio=True),
-    dict(type='Pad', pad_to_square=True, pad_val=114.0),
+    #dict(type='Pad', pad_to_square=True, pad_val=114.0),
+    dict(type='Pad', pad_val=114.0),
     dict(
         type='Normalize',
         mean=[123.675, 116.28, 103.53],
