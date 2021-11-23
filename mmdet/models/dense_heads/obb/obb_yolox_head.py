@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from mmcv.cnn import (ConvModule, DepthwiseSeparableConvModule,
                       bias_init_with_prob)
-from mmcv.ops.nms import batched_nms
+from mmdet.ops import batched_nms
 from mmcv.runner import force_fp32
 
 from mmdet.core import (MlvlPointGenerator, bbox_xyxy_to_cxcywh,
