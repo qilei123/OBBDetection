@@ -5,6 +5,7 @@ import collections
 from collections import defaultdict
 
 import numpy as np
+from torch.utils import data
 from torch.utils.data.dataset import ConcatDataset as _ConcatDataset
 from mmcv.utils import build_from_cfg
 from .builder import DATASETS,PIPELINES
@@ -244,6 +245,7 @@ class MultiImageMixDataset:
                 raise TypeError('pipeline must be a dict')
 
         self.dataset = dataset
+        print(dataset)
         self.CLASSES = dataset.CLASSES
         if hasattr(self.dataset, 'flag'):
             self.flag = dataset.flag
