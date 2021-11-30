@@ -245,7 +245,6 @@ class MultiImageMixDataset:
                 raise TypeError('pipeline must be a dict')
 
         self.dataset = dataset
-        print(dataset)
         self.CLASSES = dataset.CLASSES
         if hasattr(self.dataset, 'flag'):
             self.flag = dataset.flag
