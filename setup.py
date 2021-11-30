@@ -223,6 +223,7 @@ if __name__ == '__main__':
             'optional': parse_requirements('requirements/optional.txt'),
         },
         ext_modules=[
+            '''
             make_cuda_ext(
                 name='compiling_info',
                 module='mmdet.ops.utils',
@@ -336,6 +337,7 @@ if __name__ == '__main__':
                     'src/convex_ext.cpp'
                 ],
                 sources_cuda=['src/convex_cuda.cu']),
+        '''
         ],
         cmdclass={'build_ext': BuildExtension},
         zip_safe=False)
