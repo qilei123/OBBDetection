@@ -115,19 +115,21 @@ data = dict(
                 dict(type='LoadAnnotations', with_bbox=True)
             ],
             filter_empty_gt=False,
-            CLASSES = CLASSES),
+            classes = CLASSES),
         pipeline=train_pipeline,
         dynamic_scale=(640, 640)),
     val=dict(
         type='CocoDataset',
         ann_file='data/td/annotations/test_AW_obb.json',
         img_prefix='data/td/images/',
-        pipeline=test_pipeline),
+        pipeline=test_pipeline,
+        classes = CLASSES),
     test=dict(
         type='CocoDataset',
         ann_file='data/td/annotations/test_AW_obb.json',
         img_prefix='data/td/images/',
-        pipeline=test_pipeline))
+        pipeline=test_pipeline,
+        classes = CLASSES))
 interval = 10
 evaluation = dict(interval=10, metric='bbox')
 work_dir = 'data/td/work_dirs/yolox_s_8x8_300e_td'
