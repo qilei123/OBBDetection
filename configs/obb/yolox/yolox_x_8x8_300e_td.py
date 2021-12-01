@@ -49,7 +49,8 @@ model = dict(
     bbox_head=dict(
         type='YOLOXHead', num_classes=3, in_channels=320, feat_channels=320),)
 train_cfg=dict(assigner=dict(type='SimOTAAssigner', center_radius=2.5))
-test_cfg=dict(score_thr=0.01, nms=dict(type='nms', iou_threshold=0.65))
+test_cfg=dict(nms_pre=1000,min_bbox_size=0,
+            score_thr=0.01, nms=dict(type='nms', iou_thr=0.1),max_per_img=200)
 data_root = 'data/coco/'
 dataset_type = 'CocoDataset'
 img_norm_cfg = dict(
@@ -103,7 +104,7 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=8,
     workers_per_gpu=4,
     train=dict(
         type='MultiImageMixDataset',
