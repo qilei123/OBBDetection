@@ -132,6 +132,6 @@ data = dict(
         pipeline=test_pipeline,
         classes = CLASSES))
 interval = 10
-evaluation = dict(interval=1, metric='bbox')
+evaluation = dict(interval=10, metric='bbox')
 work_dir = 'data/td/work_dirs/yolox_x_8x8_300e_td'
 load_from = 'pretrain/epoch_220.pth'
