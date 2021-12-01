@@ -56,7 +56,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 img_scale = (640, 640)
 train_pipeline = [
-    dict(type='Mosaic', img_scale=(640, 640), pad_val=114.0),
+    dict(type='Mosaic', img_scale=(640, 640), pad_val=114.0,possibility=0),
     dict(
         type='RandomAffine', scaling_ratio_range=(0.1, 2),
         border=(-320, -320)),
