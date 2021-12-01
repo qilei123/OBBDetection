@@ -19,6 +19,7 @@ lr_config = dict(
     num_last_epochs=15,
     min_lr_ratio=0.05)
 runner = dict(type='EpochBasedRunner', max_epochs=300)
+total_epochs = 300
 checkpoint_config = dict(interval=10)
 log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook')])
 custom_hooks = [
