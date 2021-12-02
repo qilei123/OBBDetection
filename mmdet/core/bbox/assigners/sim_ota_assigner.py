@@ -163,8 +163,10 @@ class SimOTAAssigner(BaseAssigner):
                 valid_pred_scores.sqrt_(), gt_onehot_label,
                 reduction='none').sum(-1)
         except:
-            print(valid_pred_scores.sqrt_())
+            print(valid_pred_scores)
             print(gt_onehot_label)
+            print(valid_pred_scores.sqrt_())
+            
         #finally:
         #    print(valid_pred_scores.sqrt_())
         #    print(gt_onehot_label)            
