@@ -165,9 +165,9 @@ class SimOTAAssigner(BaseAssigner):
         except:
             print(valid_pred_scores.sqrt_())
             print(gt_onehot_label)
-        finally:
-            print(valid_pred_scores.sqrt_())
-            print(gt_onehot_label)            
+        #finally:
+        #    print(valid_pred_scores.sqrt_())
+        #    print(gt_onehot_label)            
 
         cost_matrix = (
             cls_cost * self.cls_weight + iou_cost * self.iou_weight +
