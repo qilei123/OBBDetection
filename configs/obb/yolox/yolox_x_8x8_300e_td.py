@@ -26,7 +26,7 @@ custom_hooks = [
     dict(type='YOLOXModeSwitchHook', num_last_epochs=15, priority=48),
     dict(
         type='SyncRandomSizeHook',
-        ratio_range=(14, 26),
+        ratio_range=(20, 20),
         img_scale=(640, 640),
         interval=10,
         priority=48),
