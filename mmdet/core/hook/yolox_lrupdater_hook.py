@@ -21,6 +21,7 @@ class YOLOXLrUpdaterHook(CosineAnnealingLrUpdaterHook):
     """
 
     def __init__(self, num_last_epochs, **kwargs):
+        print("use YOLOXLrUpdaterHook")
         self.num_last_epochs = num_last_epochs
         super(YOLOXLrUpdaterHook, self).__init__(**kwargs)
 
