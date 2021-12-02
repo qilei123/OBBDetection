@@ -3,7 +3,7 @@ CLASSES = ('Small 1-piece vehicle',
                 'Extra-large 2-piece truck',)
 optimizer = dict(
     type='SGD',
-    lr=0.0001,
+    lr=0.0025,
     momentum=0.9,
     weight_decay=0.0005,
     nesterov=True,
