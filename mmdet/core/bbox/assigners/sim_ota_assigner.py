@@ -167,7 +167,7 @@ class SimOTAAssigner(BaseAssigner):
             print(gt_onehot_label)
             print(valid_pred_scores.sqrt_())
             
-        finally:
+        else:
             print(valid_pred_scores)
             print(gt_onehot_label)
             print(valid_pred_scores.sqrt_())           
