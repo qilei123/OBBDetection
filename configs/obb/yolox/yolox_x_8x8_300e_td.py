@@ -116,7 +116,7 @@ data = dict(
                 dict(type='LoadImageFromFile', to_float32=True),
                 dict(type='LoadAnnotations', with_bbox=True)
             ],
-            filter_empty_gt=False,
+            filter_empty_gt=True,
             classes = CLASSES),
         pipeline=train_pipeline,
         dynamic_scale=(640, 640)),
