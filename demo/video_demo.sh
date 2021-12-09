@@ -75,6 +75,7 @@ SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 # set me
 FILES=$VIDEO_DIR/*
+echo $FILES
 for f in $FILES
 do
   echo "$f"
