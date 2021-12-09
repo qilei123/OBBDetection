@@ -59,7 +59,7 @@ files=$(ls $VIDEO_DIR)
 echo $files
 for VIDEO_NAME in $files
 do
-    echo $VIDEO_NAME
+    echo VIDEO_NAME="$VIDEO_NAME"|tr "\?" " "
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
     #    data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
