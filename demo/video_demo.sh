@@ -60,7 +60,7 @@ files=$(ls $VIDEO_DIR|tr " " "_")
 for VIDEO_NAME in $files
 do
     echo $VIDEO_NAME
-    NEW_VIDEO_NAME="$VIDEO_NAME"|tr "_" " "
+    NEW_VIDEO_NAME=$(tr "_" " " <<<"$VIDEO_NAME")
     echo $NEW_VIDEO_NAME
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
@@ -70,15 +70,3 @@ do
     #    --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/video_results/${VIDEO_NAME}" --mix --save_imgs
 done
 
-
-SAVEIFS=$IFS
-IFS=$(echo -en "\n\b")
-# set me
-FILES=$VIDEO_DIR/*
-echo $FILES
-for f in $FILES
-do
-  echo "$f"
-done
-# restore $IFS
-IFS=$SAVEIFS
