@@ -59,8 +59,8 @@ files=$(ls $VIDEO_DIR|tr " " "\?")
 echo $files
 for VIDEO_NAME in $files
 do
-    VIDEO_NAME_="$VIDEO_NAME"|tr "\?" " "
-    echo $VIDEO_NAME_
+    echo VIDEO_NAME="$VIDEO_NAME"|tr "\?" " "
+    echo $VIDEO_NAME
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
     #    data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
