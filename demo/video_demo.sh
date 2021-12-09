@@ -60,7 +60,7 @@ files=$(ls $VIDEO_DIR|tr " " "_")
 for VIDEO_NAME in $files
 do
     echo $VIDEO_NAME
-    NEW_VIDEO_NAME=${VIDEO_NAME//[_]// }
+    NEW_VIDEO_NAME=${VIDEO_NAME//[_]/t}
     echo $NEW_VIDEO_NAME
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
