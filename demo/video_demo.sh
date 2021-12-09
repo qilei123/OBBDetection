@@ -60,6 +60,7 @@ echo $files
 for VIDEO_NAME in $files
 do
     echo VIDEO_NAME="$VIDEO_NAME"|tr "\?" " "
+    echo $VIDEO_NAME
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
     #    data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
