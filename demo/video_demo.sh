@@ -55,12 +55,12 @@ export CUDA_VISIBLE_DEVICES=1
 export CONFIG=fcos_obb_r50_fpn_gn-head_4x4_1x_td_patch
 export PARAM_FOLDER=${CONFIG}_rotate
 export VIDEO_DIR=/home/qilei/DATASETS/trans_drone/trans_drone_videos
-files=$(ls $VIDEO_DIR|tr " " "_")
+files=$(ls $VIDEO_DIR|tr " " "?")
 
 for VIDEO_NAME in $files
 do
     echo $VIDEO_NAME
-    NEW_VIDEO_NAME=$(echo "$VIDEO_NAME"|tr "_" " ")
+    NEW_VIDEO_NAME=$(echo "$VIDEO_NAME"|tr "?" " ")
     echo $NEW_VIDEO_NAME
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
