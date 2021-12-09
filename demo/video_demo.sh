@@ -56,10 +56,10 @@ export CONFIG=fcos_obb_r50_fpn_gn-head_4x4_1x_td_patch
 export PARAM_FOLDER=${CONFIG}_rotate
 export VIDEO_DIR=/home/qilei/DATASETS/trans_drone/trans_drone_videos
 files=$(ls $VIDEO_DIR|tr " " "\?")
-echo $files
+
 for VIDEO_NAME in $files
 do
-    echo "$VIDEO_NAME"|tr "\?" " "
+    echo ${"$VIDEO_NAME"|tr "\?" " "}
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
     #    data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
