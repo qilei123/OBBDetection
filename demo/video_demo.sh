@@ -59,7 +59,7 @@ files=$(ls $VIDEO_DIR|tr " " "\?")
 echo $files
 for VIDEO_NAME in $files
 do
-    echo VIDEO_NAME1=${"$VIDEO_NAME"|tr "\?" " "}
+    echo VIDEO_NAME1="$VIDEO_NAME"|tr "\?" " "
     echo $VIDEO_NAME1
     #python demo/video_demo.py \
     #    configs/obb/app/trans_drone/$CONFIG.py \
