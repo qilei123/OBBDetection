@@ -196,7 +196,7 @@ def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
 
-def get_image_roi(height,width,scale=0.05):
+def get_image_roi(height,width,scale=0.01):
     image_roi=[width*scale,height*scale,width*(1-scale),height*(1-scale)]
     return image_roi
 
