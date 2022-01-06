@@ -72,8 +72,8 @@ def main():
         
         image_roi = get_image_roi(img.shape[0],img.shape[1])
 
-        #results = filt_results_with_roi(*result,roi=image_roi)
-        results = filt_results(*result)
+        results = filt_results_with_roi(*result,roi=image_roi)
+        #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
         if args.save_imgs and frame_number%30==0:

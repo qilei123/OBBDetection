@@ -185,7 +185,7 @@ def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
             result = np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label])
             p1 = det2polygon(result[:-2]) 
             if polygon_vs_roi(p1,roi):  
-                results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+                results.append(result)
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
 
