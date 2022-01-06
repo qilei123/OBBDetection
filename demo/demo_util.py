@@ -208,3 +208,4 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
             results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
+
