@@ -73,7 +73,7 @@ def main():
         
         image_roi = get_image_roi(img.shape[0],img.shape[1])
 
-        drawrect(im,(image_roi[0],image_roi[1]),(image_roi[2],image_roi[3]),(0,255,0),2,'dotted')
+        drawrect(img,(image_roi[0],image_roi[1]),(image_roi[2],image_roi[3]),(0,255,0),2,'dotted')
 
         results = filt_results_with_roi(*result,roi=image_roi)
         #results = filt_results(*result)
