@@ -62,11 +62,11 @@ do
     #echo $VIDEO_NAME
     VIDEO_NAME=$(echo "$VIDEO_NAME"|tr "?" " ")
     echo $VIDEO_NAME
-    python demo/video_demo.py \
+    python demo/video_demo_with_tracking.py \
         configs/obb/app/trans_drone/$CONFIG.py \
         data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
         --split BboxToolkit/tools/split_configs/trans_drone/aw_test.json \
         --video_dir "${VIDEO_DIR}/${VIDEO_NAME}" \
-        --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/video_results/${VIDEO_NAME}" --mix --save_imgs
+        --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/video_results_with_tracking/${VIDEO_NAME}" --mix --save_imgs
 done
 
