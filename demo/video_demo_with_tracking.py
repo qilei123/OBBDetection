@@ -68,7 +68,7 @@ def main():
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
-        img = show_obb_result(img,*result)
+        #img = show_obb_result(img,*result)
         
         image_roi = get_image_roi(img.shape[0],img.shape[1])
 
