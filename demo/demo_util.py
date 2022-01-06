@@ -166,17 +166,21 @@ def det2polygon(det_polygon):
     return Polygon(polygon)
 
 def point_in_roi(point,roi):#roi = [x1,y1,x2,y2]
-    print(point)
-    print(roi)
     if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
         return True
     return False
 
-def polygon_vs_roi(polygon,roi):
+def polygon_vs_roi1(polygon,roi):
     center = polygon.centroid.coords[0]
     xCenter = center[0]
     yCenter = center[1]
     return point_in_roi((xCenter,yCenter),roi)
+
+def polygon_vs_roi2(obbox,roi):
+    result = True
+    for point in obbox:
+        result = result and point_in_roi(point,roi)
+    return result
 
 def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
     results = []
@@ -185,8 +189,9 @@ def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
         #polygon = det2polygon(obb2obbox(obbox[:-1]))
         if obbox[-1]>score_thr:# and polygon_vs_roi(polygon,roi):
             result = np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label])
-            p1 = det2polygon(result[:-2]) 
-            if polygon_vs_roi(p1,roi):  
+            polygon = det2polygon(result[:-2]) 
+            #if polygon_vs_roi1(polygon,roi): 
+            if polygon_vs_roi2(obb2obbox(obbox[:-1]),roi): 
                 results.append(result)
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
