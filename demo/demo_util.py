@@ -179,10 +179,13 @@ def polygon_vs_roi(polygon,roi):
 def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
     results = []
     for obbox, cls_label in zip(obboxes,cls_labels):
-        print(obb2obbox(obbox[:-1]))
-        polygon = det2polygon(obb2obbox(obbox[:-1]))
-        if obbox[-1]>score_thr and polygon_vs_roi(polygon,roi):
-            results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+        #print(obb2obbox(obbox[:-1]))
+        #polygon = det2polygon(obb2obbox(obbox[:-1]))
+        if obbox[-1]>score_thr:# and polygon_vs_roi(polygon,roi):
+            result = np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label])
+            p1 = det2polygon(result[:-2]) 
+            if polygon_vs_roi(p1,roi):  
+                results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
 
