@@ -156,15 +156,6 @@ def json2csv(json_file_name):
                         row.append(item[key2])
             write.writerow(row)
 
-def filt_results(obboxes,cls_labels,score_thr = 0.3):
-    results = []
-    for obbox, cls_label in zip(obboxes,cls_labels):
-        
-        if obbox[-1]>score_thr:
-            results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
-            #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
-    return results
-
 def det2polygon(det_polygon):
 
     polygon = []
@@ -188,7 +179,7 @@ def polygon_vs_roi(polygon,roi):
 def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
     results = []
     for obbox, cls_label in zip(obboxes,cls_labels):
-        print(obbox)
+        print(obb2obbox(obbox[:-1]))
         polygon = det2polygon(obb2obbox(obbox[:-1]))
         if obbox[-1]>score_thr and polygon_vs_roi(polygon,roi):
             results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
@@ -198,3 +189,12 @@ def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
 def get_image_roi(height,width):
     image_roi=[width*0.1,height*0.1,width*0.9,height*0.9]
     return image_roi
+
+def filt_results(obboxes,cls_labels,score_thr = 0.3):
+    results = []
+    for obbox, cls_label in zip(obboxes,cls_labels):
+        
+        if obbox[-1]>score_thr:
+            results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+            #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+    return results
