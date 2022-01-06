@@ -166,6 +166,8 @@ def det2polygon(det_polygon):
     return Polygon(polygon)
 
 def point_in_roi(point,roi):#roi = [x1,y1,x2,y2]
+    print(point)
+    print(roi)
     if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
         return True
     return False
