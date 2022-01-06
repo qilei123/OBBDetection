@@ -4,7 +4,7 @@ import json
 from imantics import Polygons, Mask
 import BboxToolkit as bt
 import warnings
-
+from shapely.geometry import Polygon
 from mmdet.apis import obb
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -164,3 +164,36 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
             results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
+
+def det2polygon(det_polygon):
+
+    polygon = []
+
+    for i in range(int(len(det_polygon)/2)):
+        polygon.append((det_polygon[i*2],det_polygon[i*2+1]))
+
+    return Polygon(polygon)
+
+def point_in_roi(point,roi):#roi = [x1,y1,x2,y2]
+    if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
+        return True
+    return False
+
+def polygon_vs_roi(polygon,roi):
+    center = polygon.centroid.coords[0]
+    xCenter = center[0]
+    yCenter = center[1]
+    return point_in_roi((xCenter,yCenter),roi)
+
+def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
+    results = []
+    for obbox, cls_label in zip(obboxes,cls_labels):
+        polygon = det2polygon(obbox[:-2])
+        if obbox[-1]>score_thr and polygon_vs_roi(polygon,roi):
+            results.append(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+            #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
+    return results
+
+def get_image_roi(height,width):
+    image_roi=[width*0.1,height*0.1,width*0.9,height*0.9]
+    return image_roi
