@@ -212,6 +212,8 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
 
 def get_det_centers(result_dets):
     det_centers = []
+    
     for result_det in result_dets:
-        print(result_det)
+        print(result_dets[0,:]+result_dets[2,:])
+        
     return det_centers
