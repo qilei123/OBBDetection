@@ -209,3 +209,8 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
 
+
+def get_det_centers(result_dets):
+    det_centers = []
+    print(result_dets)
+    return det_centers

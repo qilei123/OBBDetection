@@ -76,6 +76,9 @@ def main():
         drawrect(img,(image_roi[0],image_roi[1]),(image_roi[2],image_roi[3]),(255,255,0),2,'dotted')
 
         results = filt_results_with_roi(*result,roi=image_roi)
+
+        result_centers = get_det_centers(results)
+
         #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
