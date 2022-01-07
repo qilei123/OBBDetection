@@ -214,6 +214,6 @@ def get_det_centers(result_dets):
     det_centers = []
     
     for result_det in result_dets:
-        print(result_dets[0,:]+result_dets[2,:])
-        
+        print(((result_det[0]+result_dets[4])/2,(result_det[1]+result_dets[5])/2))
+        print(((result_det[2]+result_dets[6])/2,(result_det[3]+result_dets[7])/2))
     return det_centers
