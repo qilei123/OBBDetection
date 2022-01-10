@@ -62,6 +62,10 @@ def main():
     
     ret_val, img = video_reader.read()
     
+    pre_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    curr_gray_img = None
+
     tmer = tracks_manager()
 
     frame_number = 0
@@ -90,6 +94,8 @@ def main():
         p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,
 							**feature_params)
 
+        
+
         print('p0')
         print(p0)
         print('result_centers')
@@ -107,8 +113,10 @@ def main():
             video_writer.write(img)
         
         ret_val, img = video_reader.read()
-        frame_number+=1
 
+        curr_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        frame_number+=1
 
     if isinstance( args.out_dir,str):
         tmer.save_results(args.out_dir+".json")
