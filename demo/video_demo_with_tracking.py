@@ -101,10 +101,17 @@ def main():
         print('result_centers')
         print(result_centers)
         if curr_gray_img is not None:
+            
+            import datetime
+            starttime = datetime.datetime.now()
             p1, st, err = cv2.calcOpticalFlowPyrLK(pre_gray_img,
                                                 curr_gray_img,
                                                 result_centers, None,
                                                 **lk_params)
+            endtime = datetime.datetime.now()
+
+            print((endtime - starttime).seconds)
+        
             print('p1')
             print(p1)
 
