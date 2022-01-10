@@ -94,8 +94,6 @@ def main():
         p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,
 							**feature_params)
 
-        
-
         print('p0')
         print(p0)
         print('result_centers')
