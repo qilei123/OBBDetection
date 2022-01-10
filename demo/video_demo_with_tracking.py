@@ -90,8 +90,9 @@ def main():
         p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,
 							**feature_params)
 
+        print('p0')
         print(p0)
-
+        print('result_centers')
         print(result_centers)
         #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
