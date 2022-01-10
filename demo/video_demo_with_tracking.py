@@ -40,10 +40,17 @@ def parse_args():
 
 def main():
 
+    # params for corner detection
     feature_params = dict( maxCorners = 100,
-                        qualityLevel = 0.3,
-                        minDistance = 7,
-                        blockSize = 7 )
+					qualityLevel = 0.3,
+					minDistance = 7,
+					blockSize = 7 )
+
+    # Parameters for lucas kanade optical flow
+    lk_params = dict( winSize = (15, 15),
+				maxLevel = 2,
+				criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,
+							10, 0.03))
 
     args = parse_args()
 
@@ -89,15 +96,18 @@ def main():
 
         result_centers = get_det_centers(results)
 
-        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,
-							**feature_params)
-
-        print('p0')
-        print(p0)
+        #gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,**feature_params)
         print('result_centers')
         print(result_centers)
+        if curr_gray_img is not None:
+            p1, st, err = cv2.calcOpticalFlowPyrLK(pre_gray_img,
+                                                curr_gray_img,
+                                                result_centers, None,
+                                                **lk_params)
+            print('p1')
+            print(p1)
+
         #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
@@ -111,6 +121,8 @@ def main():
             video_writer.write(img)
         
         ret_val, img = video_reader.read()
+
+        pre_gray_img = curr_gray_img
 
         curr_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
