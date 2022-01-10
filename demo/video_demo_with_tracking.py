@@ -103,7 +103,7 @@ def main():
         #p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,**feature_params)
         print('result_centers')
         print(result_centers)
-        if curr_gray_img is not None:
+        if pre_gray_img is not None:
             
             import datetime
             starttime = datetime.datetime.now()
