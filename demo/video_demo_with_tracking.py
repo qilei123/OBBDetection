@@ -78,7 +78,7 @@ def main():
         results = filt_results_with_roi(*result,roi=image_roi)
 
         result_centers = get_det_centers(results)
-
+        print(result_centers)
         #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
