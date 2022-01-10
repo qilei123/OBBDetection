@@ -3,9 +3,13 @@ import numpy as np
 import json
 from imantics import Polygons, Mask
 import BboxToolkit as bt
-import warnings
+
+import math
+
 from shapely.geometry import Polygon
 from mmdet.apis import obb
+
+import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def draw_mask(frame,cat_segm,color,alpha=0.5):
@@ -218,3 +222,17 @@ def get_det_centers(result_dets):
         #print(((result_det[2]+result_det[6])/2,(result_det[3]+result_det[7])/2))
         det_centers.append(((result_det[0]+result_det[4])/2,(result_det[1]+result_det[5])/2))
     return det_centers
+
+def get_det_edge_centers(result_dets):
+    det_edge_centers = []
+    det_ls = []
+    for result_det in result_dets:
+        edge_center = [(result_det[0]+result_det[2])/2,(result_det[1]+result_det[3])/2,
+                                (result_det[2]+result_det[4])/2,(result_det[3]+result_det[5])/2,
+                                (result_det[4]+result_det[6])/2,(result_det[5]+result_det[7])/2,
+                                (result_det[6]+result_det[0])/2,(result_det[7]+result_det[1])/2]
+        det_edge_centers.append(edge_center)
+        l1 = math.sqrt((edge_center[0]-edge_center[4])+(edge_center[1]-edge_center[5]))
+        l2 = math.sqrt((edge_center[2]-edge_center[6])+(edge_center[3]-edge_center[7]))
+        det_ls.append([l1,l2])
+    return det_edge_centers,det_ls    

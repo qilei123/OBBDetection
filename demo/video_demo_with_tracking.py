@@ -39,6 +39,12 @@ def parse_args():
 
 
 def main():
+
+    feature_params = dict( maxCorners = 100,
+                        qualityLevel = 0.3,
+                        minDistance = 7,
+                        blockSize = 7 )
+
     args = parse_args()
 
     device = torch.device(args.device)
@@ -78,6 +84,14 @@ def main():
         results = filt_results_with_roi(*result,roi=image_roi)
 
         result_centers = get_det_centers(results)
+
+        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,
+							**feature_params)
+
+        print(p0)
+
         print(result_centers)
         #results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
