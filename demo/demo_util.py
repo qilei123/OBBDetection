@@ -214,13 +214,13 @@ def filt_results(obboxes,cls_labels,score_thr = 0.3):
     return results
 
 
-def get_det_centers(result_dets):
+def get_det_centers(result_dets,scale = 1):
     det_centers = []
     
     for result_det in result_dets:
         #print(((result_det[0]+result_det[4])/2,(result_det[1]+result_det[5])/2))
         #print(((result_det[2]+result_det[6])/2,(result_det[3]+result_det[7])/2))
-        det_centers.append([[int((result_det[0]+result_det[4])/2),int((result_det[1]+result_det[5])/2)]])
+        det_centers.append([[scale*(result_det[0]+result_det[4])/2,scale*(result_det[1]+result_det[5])/2]])
     return np.asarray(det_centers).astype(np.float32)
 
 def get_det_edge_centers(result_dets):

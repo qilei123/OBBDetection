@@ -52,6 +52,8 @@ def main():
 				criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,
 							10, 0.03))
 
+    track_scale = 0.25
+
     args = parse_args()
 
     device = torch.device(args.device)
@@ -69,9 +71,10 @@ def main():
     
     ret_val, img = video_reader.read()
     
-    pre_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    pre_gray_img = None
 
-    curr_gray_img = None
+    curr_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    curr_gray_img = cv2.resize(curr_gray_img,(int(img.shape[1]*track_scale),int(img.shape[0]*track_scale)))
 
     tmer = tracks_manager()
 
@@ -94,7 +97,7 @@ def main():
 
         results = filt_results_with_roi(*result,roi=image_roi)
 
-        result_centers = get_det_centers(results)
+        result_centers = get_det_centers(results,scale=track_scale)
 
         #gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         #p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,**feature_params)
@@ -132,6 +135,7 @@ def main():
         pre_gray_img = curr_gray_img
 
         curr_gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        curr_gray_img = cv2.resize(curr_gray_img,(int(img.shape[1]*track_scale),int(img.shape[0]*track_scale)))
 
         frame_number+=1
 
