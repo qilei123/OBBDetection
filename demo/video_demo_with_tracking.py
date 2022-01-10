@@ -113,7 +113,7 @@ def main():
                                                 **lk_params)
             endtime = datetime.datetime.now()
 
-            print((endtime - starttime).seconds)
+            print((endtime - starttime).microseconds)
         
             print('p1')
             print(p1)
