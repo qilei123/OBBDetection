@@ -79,48 +79,47 @@ def main():
     tmer = tracks_manager()
 
     frame_number = 0
+    
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
+    
     while ret_val:
-        
-        if not args.split:
-            result = inference_detector(model, img)
-        else:
-            nms_cfg = dict(type='BT_nms', iou_thr=0.1)
-            result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
+        if frame_number%15==0: #detection every 15 frames    
+            if not args.split:
+                result = inference_detector(model, img)
+            else:
+                nms_cfg = dict(type='BT_nms', iou_thr=0.1)
+                result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
-        img = show_obb_result(img,*result)
-        
-        image_roi = get_image_roi(img.shape[0],img.shape[1])
-
-        drawrect(img,(image_roi[0],image_roi[1]),(image_roi[2],image_roi[3]),(255,255,0),2,'dotted')
-
-        results = filt_results_with_roi(*result,roi=image_roi)
-
-        result_centers = get_det_centers(results,scale=track_scale)
-
-        #gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        #p0 = cv2.goodFeaturesToTrack(gray_img, mask = None,**feature_params)
-        print('result_centers')
-        print(result_centers)
-        if pre_gray_img is not None:
+            img = show_obb_result(img,*result)
             
-            import datetime
-            starttime = datetime.datetime.now()
-            p1, st, err = cv2.calcOpticalFlowPyrLK(pre_gray_img,
-                                                curr_gray_img,
-                                                result_centers, None,
-                                                **lk_params)
-            endtime = datetime.datetime.now()
+            image_roi = get_image_roi(img.shape[0],img.shape[1])
 
-            print((endtime - starttime).microseconds)
-        
-            print('p1')
-            print(p1)
+            drawrect(img,(image_roi[0],image_roi[1]),(image_roi[2],image_roi[3]),(255,255,0),2,'dotted')
 
+            results = filt_results_with_roi(*result,roi=image_roi)
+
+            result_centers = get_det_centers(results,scale=track_scale)
+
+            points = result_centers
+        else:
+            if pre_gray_img is not None:
+                
+                points, st, err = cv2.calcOpticalFlowPyrLK(pre_gray_img,
+                                                    curr_gray_img,
+                                                    points, None,
+                                                    **lk_params)
+
+                points = points[st==1]
+        for pt in points:
+            a,b = pt.ravel()
+            img = cv2.circle(img, (int(a), int( b)), 5,
+                            (0,0,255), -1)            
         #results = filt_results(*result)
+        '''
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
+        '''
         if args.save_imgs and frame_number%30==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
