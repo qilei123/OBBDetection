@@ -112,7 +112,7 @@ def main():
                 print(points)
                 print(st)
                 print(err)
-                #points = points[st==1]
+                print(points[st==1])
         for pt in points:
             a,b = pt.ravel()
             img = cv2.circle(img, (int(a/track_scale), int( b/track_scale)), 5,
