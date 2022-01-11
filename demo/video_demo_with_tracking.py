@@ -109,7 +109,9 @@ def main():
                                                     curr_gray_img,
                                                     points, None,
                                                     **lk_params)
-
+                print(points)
+                print(st)
+                print(err)
                 #points = points[st==1]
         for pt in points:
             a,b = pt.ravel()
