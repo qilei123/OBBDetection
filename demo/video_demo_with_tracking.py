@@ -110,10 +110,10 @@ def main():
                                                     points, None,
                                                     **lk_params)
 
-                points = points[st==1]
+                #points = points[st==1]
         for pt in points:
             a,b = pt.ravel()
-            img = cv2.circle(img, (int(a), int( b)), 5,
+            img = cv2.circle(img, (int(a/track_scale), int( b/track_scale)), 5,
                             (0,0,255), -1)            
         #results = filt_results(*result)
         '''
