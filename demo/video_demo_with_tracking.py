@@ -122,7 +122,7 @@ def main():
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
         '''
-        if args.save_imgs and frame_number%30==0:
+        if args.save_imgs and frame_number%5==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
             save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
