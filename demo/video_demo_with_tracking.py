@@ -120,8 +120,8 @@ def main():
         #results = filt_results(*result)
         
         #tmer.update_with_obbox(results,frame_number)
-        tmer.update_with_obbox_or_tracking(results,frame_number)
-        img = tmer.vis(img)
+        #tmer.update_with_obbox_or_tracking(results,frame_number)
+        #img = tmer.vis(img)
         
         if args.save_imgs and frame_number%10==0:
             if not os.path.exists(args.out_dir[:-4]):
