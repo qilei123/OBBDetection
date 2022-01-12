@@ -235,4 +235,7 @@ def get_det_edge_centers(result_dets):
         l1 = math.sqrt((edge_center[0]-edge_center[4])+(edge_center[1]-edge_center[5]))
         l2 = math.sqrt((edge_center[2]-edge_center[6])+(edge_center[3]-edge_center[7]))
         det_ls.append([l1,l2])
-    return det_edge_centers,det_ls    
+    return det_edge_centers,det_ls 
+
+def get_det_short_edget_centers(det_edge_centers,det_ls):
+    pass   

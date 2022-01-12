@@ -109,20 +109,21 @@ def main():
                                                     curr_gray_img,
                                                     points, None,
                                                     **lk_params)
-                print(points)
-                print(st)
-                print(err)
-                print(points[st==1])
+                #print(points)
+                #print(st)
+                #print(err)
+                #print(points[st==1])
         for pt in points:
             a,b = pt.ravel()
             img = cv2.circle(img, (int(a/track_scale), int( b/track_scale)), 5,
                             (0,0,255), -1)            
         #results = filt_results(*result)
-        '''
-        tmer.update_with_obbox(results,frame_number)
+        
+        #tmer.update_with_obbox(results,frame_number)
+        tmer.update_with_obbox_or_tracking(results,frame_number)
         img = tmer.vis(img)
-        '''
-        if args.save_imgs and frame_number%5==0:
+        
+        if args.save_imgs and frame_number%10==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
             save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
