@@ -122,6 +122,7 @@ class tracks_manager:
                 self.dead_ids.append(live_id)    
     def update_with_obbox(self,bbox_results,frame_id):
         print(bbox_results)
+        print(frame_id)
         for obbox in bbox_results:
             max_iou = 0
             max_iou_id = -1
@@ -141,6 +142,8 @@ class tracks_manager:
             center = p1.centroid.coords[0]
             new_track.xCenter = center[0]
             new_track.yCenter = center[1]
+            
+            print(max_iou_id)
 
             if max_iou_id>-1:
                 new_track.trackId = max_iou_id
