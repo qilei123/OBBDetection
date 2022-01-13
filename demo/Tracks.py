@@ -399,7 +399,7 @@ class tracks_manager:
             track = self.track_queue[live_id][-1]
             #cv2.putText(frame, str(round(avg_xyVelocity,2)), (int(track.xCenter),int(track.yCenter)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 1, cv2.LINE_AA)
             #this is for the debug
-            cv2.putText(frame, str(round(live_id,2)), (int(track.xCenter),int(track.yCenter)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 1, cv2.LINE_AA)    
+            cv2.putText(frame, str(round(live_id,2)), (int(track.xCenter),int(track.yCenter)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 2, cv2.LINE_AA)    
         return frame
     def vis_bbox(self,frame):
         #print(self.live_ids)
