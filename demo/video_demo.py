@@ -72,7 +72,7 @@ def main():
         results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
-        if args.save_imgs and frame_number%30==0:
+        if args.save_imgs and frame_number%1==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
             save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
@@ -83,7 +83,9 @@ def main():
         
         ret_val, img = video_reader.read()
         frame_number+=1
-
+        #this is for debug
+        if frame_number==450:
+            break
 
     if isinstance( args.out_dir,str):
         tmer.save_results(args.out_dir+".json")
