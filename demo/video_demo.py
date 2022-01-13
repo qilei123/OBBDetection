@@ -58,8 +58,11 @@ def main():
     tmer = tracks_manager()
 
     frame_number = 0
+    show_fq = 1
+    
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
+    
     while ret_val:
         
         if not args.split:
@@ -72,7 +75,7 @@ def main():
         results = filt_results(*result)
         tmer.update_with_obbox(results,frame_number)
         img = tmer.vis(img)
-        if args.save_imgs and frame_number%1==0:
+        if args.save_imgs and frame_number%show_fq==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])
             save_img_dir = os.path.join(args.out_dir[:-4],str(frame_number).zfill(10)+".jpg")
