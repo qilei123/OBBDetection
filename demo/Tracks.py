@@ -121,6 +121,7 @@ class tracks_manager:
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)    
     def update_with_obbox(self,bbox_results,frame_id):
+        print(bbox_results)
         for obbox in bbox_results:
             max_iou = 0
             max_iou_id = -1
