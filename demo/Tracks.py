@@ -121,8 +121,8 @@ class tracks_manager:
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)    
     def update_with_obbox(self,bbox_results,frame_id):
-        print(bbox_results)
-        print(frame_id)
+        
+        print("Frame id:%d." % (frame_id)) 
         for obbox in bbox_results:
             max_iou = 0
             max_iou_id = -1
@@ -134,6 +134,7 @@ class tracks_manager:
                 if p1.intersects(p2)>max_iou:
                     max_iou = p1.intersects(p2)
                     max_iou_id = live_id
+                print(max_iou)
             #print(max_iou_id)
             new_track = track()
             new_track.cat_id = cat_id
