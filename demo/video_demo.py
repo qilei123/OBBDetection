@@ -63,6 +63,10 @@ def main():
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
     
+    image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.005)
+
+    tmer.set_img_roi(image_roi)
+
     while ret_val:
         
         if not args.split:
@@ -77,7 +81,7 @@ def main():
         #results = filt_results(*result)
 
         #this two line get rid of the object near the edges of the image
-        image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.005)
+        
         results = filt_results_with_roi(*result,roi=image_roi)        
 
         tmer.update_with_obbox(results,frame_number)
