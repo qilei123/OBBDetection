@@ -58,7 +58,7 @@ def main():
     tmer = tracks_manager()
 
     frame_number = 0
-    show_fq = 1
+    show_fq = 30
     
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
