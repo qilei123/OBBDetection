@@ -87,7 +87,7 @@ def main():
         ret_val, img = video_reader.read()
         frame_number+=1
         #this is for debug
-        if frame_number==3:
+        if frame_number==450:
             break
 
     if isinstance( args.out_dir,str):

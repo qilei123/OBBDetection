@@ -122,28 +122,21 @@ class tracks_manager:
                 self.dead_ids.append(live_id)    
     def update_with_obbox(self,bbox_results,frame_id):
         
-        print("Frame id:%d." % (frame_id)) 
         for obbox in bbox_results:
             max_iou = 0
             max_iou_id = -1
             cat_id = obbox[-1]
-            print(obbox)
             p1 = self.det2polygon(obbox[:-2])
             for live_id in self.live_ids:
                 latest_track = self.track_queue[live_id][-1]
                 p2 = self.det2polygon(latest_track.polygon)
-                print(p1.area)
-                print(p2.area)
-                print(p1.intersects(p2))
-                print('test')
                 intersect_area = p1.intersection(p2).area
                 union_area = p1.union(p2).area
                 iou = intersect_area/union_area
                 if iou>max_iou:
                     max_iou = iou
                     max_iou_id = live_id
-                print(iou)
-            #print(max_iou_id)
+
             new_track = track()
             new_track.cat_id = cat_id
             new_track.frame = frame_id
@@ -152,7 +145,6 @@ class tracks_manager:
             new_track.xCenter = center[0]
             new_track.yCenter = center[1]
             
-            print(max_iou_id)
 
             if max_iou_id>-1:
                 new_track.trackId = max_iou_id
