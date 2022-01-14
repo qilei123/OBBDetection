@@ -129,7 +129,7 @@ class tracks_manager:
             p1 = self.det2polygon(obbox[:-2])
             for live_id in self.live_ids:
                 latest_track = self.track_queue[live_id][-1]
-                p2 = self.det2polygon(latest_track.polygon)
+                p2 = self.det2polygon(latest_track.polygon[:-2])
                 intersect_area = p1.intersection(p2).area
                 union_area = p1.union(p2).area
                 iou = intersect_area/union_area
@@ -140,7 +140,7 @@ class tracks_manager:
             new_track = track()
             new_track.cat_id = cat_id
             new_track.frame = frame_id
-            new_track.polygon = obbox[:-2]
+            new_track.polygon = obbox
             center = p1.centroid.coords[0]
             new_track.xCenter = center[0]
             new_track.yCenter = center[1]
@@ -178,10 +178,25 @@ class tracks_manager:
             #print(self.track_queue)
 
         for live_id in self.live_ids:
-            if frame_id - self.track_queue[live_id][-1].frame>5:
+            if (frame_id - self.track_queue[live_id][-1].frame>5) or (not self.in_roi(self.track_queue[live_id][-1].polygon)):
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)
 
+    def set_img_roi(self,roi):
+        self.img_roi = roi
+
+    def point_in_roi(self,point,roi):#roi = [x1,y1,x2,y2]
+        if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
+            return True
+        return False
+    
+    def in_roi(self,polygon):
+        is_in = True
+
+        for i in range(4):
+            is_in = is_in and self.point_in_roi((polygon[i*2],polygon[i*2+1]),self.img_roi)
+
+        return is_in
 
     def update_with_obbox_or_tracking(self,frame_id,bbox_results=None,tracking_results=None):
         if bbox_results is not None:
