@@ -63,7 +63,7 @@ def main():
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
     
-    image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.001)
+    image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.002)
 
     tmer.set_img_roi(image_roi)
 
