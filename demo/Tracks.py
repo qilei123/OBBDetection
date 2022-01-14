@@ -127,6 +127,7 @@ class tracks_manager:
             max_iou = 0
             max_iou_id = -1
             cat_id = obbox[-1]
+            print(obbox)
             p1 = self.det2polygon(obbox[:-2])
             for live_id in self.live_ids:
                 latest_track = self.track_queue[live_id][-1]
