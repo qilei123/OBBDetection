@@ -136,10 +136,11 @@ class tracks_manager:
                 print(p1.intersection(p2).area)
                 intersect_area = p1.intersection(p2).area
                 union_area = p1.union(p2).area
-                if iou_area>max_iou:
-                    max_iou = iou_area
+                iou = intersect_area/union_area
+                if iou>max_iou:
+                    max_iou = iou
                     max_iou_id = live_id
-                print(iou_area)
+                print(iou)
             #print(max_iou_id)
             new_track = track()
             new_track.cat_id = cat_id
