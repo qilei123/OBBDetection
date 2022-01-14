@@ -58,12 +58,12 @@ def main():
     tmer = tracks_manager()
 
     frame_number = 0
-    show_fq = 1
+    show_fq = 30
     
     if frame_number>0:
         video_reader.set(cv2.CAP_PROP_POS_FRAMES,frame_number)
     
-    image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.005)
+    image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.001)
 
     tmer.set_img_roi(image_roi)
 
@@ -98,8 +98,8 @@ def main():
         ret_val, img = video_reader.read()
         frame_number+=1
         #this is for debug
-        if frame_number==450:
-            break
+        #if frame_number==450:
+        #    break
 
     if isinstance( args.out_dir,str):
         tmer.save_results(args.out_dir+".json")

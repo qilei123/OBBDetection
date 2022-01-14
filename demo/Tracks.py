@@ -178,7 +178,7 @@ class tracks_manager:
             #print(self.track_queue)
 
         for live_id in self.live_ids:
-            if (frame_id - self.track_queue[live_id][-1].frame>5) or (not self.in_roi(self.track_queue[live_id][-1].polygon)):
+            if (frame_id - self.track_queue[live_id][-1].frame>5):# or (not self.in_roi(self.track_queue[live_id][-1].polygon)):
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)
 
@@ -187,8 +187,8 @@ class tracks_manager:
 
     def point_in_roi(self,point,roi):#roi = [x1,y1,x2,y2]
         if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
-            exit()
             return True
+        
         return False
     
     def in_roi(self,polygon):
