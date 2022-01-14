@@ -178,7 +178,7 @@ class tracks_manager:
             #print(self.track_queue)
 
         for live_id in self.live_ids:
-            if (frame_id - self.track_queue[live_id][-1].frame>5):# or (not self.in_roi(self.track_queue[live_id][-1].polygon)):
+            if (frame_id - self.track_queue[live_id][-1].frame>3):# or (not self.in_roi(self.track_queue[live_id][-1].polygon)):
                 self.live_ids.remove(live_id)
                 self.dead_ids.append(live_id)
 
