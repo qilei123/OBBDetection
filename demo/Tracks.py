@@ -147,7 +147,7 @@ class tracks_manager:
             new_track = track()
             new_track.cat_id = cat_id
             new_track.frame = frame_id
-            new_track.polygon = obbox
+            new_track.polygon = obbox[:-2]
             center = p1.centroid.coords[0]
             new_track.xCenter = center[0]
             new_track.yCenter = center[1]
