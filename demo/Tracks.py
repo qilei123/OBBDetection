@@ -132,7 +132,7 @@ class tracks_manager:
                 latest_track = self.track_queue[live_id][-1]
                 p2 = self.det2polygon(latest_track.polygon)
                 if p1.intersects(p2)>max_iou:
-                    max_iou = p1.intersects(p2)
+                    max_iou = p1.intersects(p2).area
                     max_iou_id = live_id
                 print(max_iou)
             #print(max_iou_id)
