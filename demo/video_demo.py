@@ -77,7 +77,7 @@ def main():
         #results = filt_results(*result)
 
         #this two line get rid of the object near the edges of the image
-        image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.01)
+        image_roi = get_image_roi(img.shape[0],img.shape[1],scale=0.005)
         results = filt_results_with_roi(*result,roi=image_roi)        
 
         tmer.update_with_obbox(results,frame_number)
