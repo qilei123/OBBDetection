@@ -187,6 +187,7 @@ class tracks_manager:
 
     def point_in_roi(self,point,roi):#roi = [x1,y1,x2,y2]
         if point[0]>roi[0] and point[0]<roi[2] and point[1]>roi[1] and point[1]<roi[3]:
+            exit()
             return True
         return False
     
