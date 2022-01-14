@@ -133,7 +133,7 @@ class tracks_manager:
                 p2 = self.det2polygon(latest_track.polygon)
                 print(p1.area)
                 print(p2.area)
-                print(p1.intersection(p2).area)
+                print(p1.intersects(p2).area)
                 print('test')
                 intersect_area = p1.intersection(p2).area
                 union_area = p1.union(p2).area
