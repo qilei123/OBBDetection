@@ -54,7 +54,7 @@
 export CUDA_VISIBLE_DEVICES=1
 export CONFIG=fcos_obb_r50_fpn_gn-head_4x4_1x_td_patch
 export PARAM_FOLDER=${CONFIG}_rotate
-export VIDEO_DIR=/home/qilei/DATASETS/trans_drone/trans_drone_videos/t2
+export VIDEO_DIR=/home/qilei/DATASETS/trans_drone/trans_drone_videos2
 files=$(ls $VIDEO_DIR|tr " " "?")
 
 for VIDEO_NAME in $files
