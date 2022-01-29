@@ -94,8 +94,10 @@ def main():
 
             hbb_results = update_trackers(multi_trackers)
 
-        #tmer.update_with_obbox(hbb_results,frame_number)
-        #img = tmer.vis(img)
+        obb_results = hbbs2obbs(hbb_results)
+
+        tmer.update_with_obbox(hbb_results,frame_number)
+        img = tmer.vis(img)
         if args.save_imgs and frame_number%show_fq==0:
             if not os.path.exists(args.out_dir[:-4]):
                 os.makedirs(args.out_dir[:-4])

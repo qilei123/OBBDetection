@@ -283,26 +283,57 @@ def obbox2hbbox(obbox):
             miny = xy if miny>xy else miny
             maxy = xy if maxy<xy else maxy
 
-    return [minx,miny,maxx,maxy]
+    return [int(minx),int(miny),int(maxx-minx),int(maxy-miny)]
 
 def obb_results2hbb_results(results):
     hbb_results = []
 
     for obb_result in results:
-        print(obb_result)
+
         hbb_result = [*obbox2hbbox(obb_result[:-2]),obb_result[-2],obb_result[-1]]
-        print(hbb_result)
+
         hbb_results.append(hbb_result)
 
     return hbb_results
 
 
-def init_trackers(hbb_results):
-    trackers = {}
+def init_trackers(frame,hbb_results):
+    trackers = []
     for hbb_result in hbb_results:
-        print(hbb_result)
+        tracker = create_opencv_tracker()
+        tracker.init(frame,hbb_result[:-2])
+        trackers.append[{"tracker":tracker,"score":hbb_result[-2],"label":hbb_result[-1]}]
     return trackers
 
-def update_trackers(trackers):
+def update_trackers(frame,trackers):
     hbb_results = []
+    for tracker in trackers:
+        success,hbbox = tracker['tracker'].update(frame)
+        if success:
+            hbb_result = [*hbbox,tracker['score'],tracker['label']]
+            hbb_results.append(hbb_result)
     return hbb_results
+
+def hbbs2obbs(hbb_results):
+    obb_results = []
+
+    for hbb_result in hbb_results:
+        obb_result = []
+        obb_result.append(hbb_result[0])
+        obb_result.append(hbb_result[1])
+
+        obb_result.append(hbb_result[0]+hbb_result[2])
+        obb_result.append(hbb_result[1])
+
+        obb_result.append(hbb_result[0]+hbb_result[2])
+        obb_result.append(hbb_result[1]+hbb_result[3])
+
+        obb_result.append(hbb_result[0])
+        obb_result.append(hbb_result[1]+hbb_result[3])
+
+        obb_result.append(hbb_result[4])
+        obb_result.append(hbb_result[5])  
+
+        obb_results.append(obb_result)
+
+    return obb_results      
