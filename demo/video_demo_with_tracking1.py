@@ -94,6 +94,8 @@ def main():
 
             hbb_results = update_trackers(img,multi_trackers,other_infos)
 
+        img = vis_hbb(img,hbb_results)
+
         obb_results = hbbs2obbs(hbb_results)
 
         tmer.update_with_obbox(obb_results,frame_number)

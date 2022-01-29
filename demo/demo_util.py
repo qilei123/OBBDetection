@@ -342,3 +342,9 @@ def hbbs2obbs(hbb_results):
         obb_results.append(obb_result)
         
     return obb_results      
+
+def vis_hbb(frame,hbbs):
+    for hbb in hbbs:
+        cv2.rectangle(frame, (hbb[0], hbb[1]), (hbb[0]+hbb[2], hbb[1]+hbb[3]), (255, 0, 0), 2)
+
+    return frame
