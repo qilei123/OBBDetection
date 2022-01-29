@@ -291,7 +291,7 @@ def obb_results2hbb_results(results):
     for obb_result in results:
         print(obb_result)
         hbb_result = [*obbox2hbbox(obb_result[:-2]),obb_result[-2],obb_result[-1]]
-        print(hbb_results)
+        print(hbb_result)
         hbb_results.append(hbb_result)
 
     return hbb_results
