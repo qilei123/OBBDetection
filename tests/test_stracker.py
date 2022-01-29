@@ -116,7 +116,7 @@ if __name__ == '__main__' :
             # sure you press ENTER or SPACE after selecting the ROI)
             bbox = cv2.selectROI("Tracking", frame, fromCenter=False,
                                 showCrosshair=True) 
-
+            print(bbox)
             ok = tracker.init(frame, bbox) 
             inited_tracker = True
         elif key == ord("q"):

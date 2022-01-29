@@ -301,7 +301,8 @@ def init_trackers(frame,hbb_results):
     trackers = []
     for hbb_result in hbb_results:
         tracker = create_opencv_tracker()
-        tracker.init(frame,hbb_result[:-2])
+        print(hbb_result)
+        tracker.init(frame,(*hbb_result[:-2]))
         trackers.append[{"tracker":tracker,"score":hbb_result[-2],"label":hbb_result[-1]}]
     return trackers
 
