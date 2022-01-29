@@ -299,19 +299,21 @@ def obb_results2hbb_results(results):
 
 def init_trackers(frame,hbb_results):
     trackers = []
+    other_infos = []
     for hbb_result in hbb_results:
         tracker = create_opencv_tracker()
         bbox = (hbb_result[0],hbb_result[1],hbb_result[2],hbb_result[3])
         tracker.init(frame,bbox)
-        trackers.append[{"tracker":tracker,"score":hbb_result[-2],"label":hbb_result[-1]}]
-    return trackers
+        trackers.append(tracker)
+        other_infos.append[{"score":hbb_result[-2],"label":hbb_result[-1]}]
+    return trackers,other_infos
 
-def update_trackers(frame,trackers):
+def update_trackers(frame,trackers,other_infos):
     hbb_results = []
-    for tracker in trackers:
-        success,hbbox = tracker['tracker'].update(frame)
+    for tracker,other_info in zip(trackers,other_infos):
+        success,hbbox = tracker.update(frame)
         if success:
-            hbb_result = [hbbox[0],hbbox[1],hbbox[2],hbbox[3],tracker['score'],tracker['label']]
+            hbb_result = [hbbox[0],hbbox[1],hbbox[2],hbbox[3],other_info['score'],other_info['label']]
             hbb_results.append(hbb_result)
     return hbb_results
 
