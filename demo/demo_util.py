@@ -305,8 +305,9 @@ def init_trackers(frame,hbb_results):
         bbox = (hbb_result[0],hbb_result[1],hbb_result[2],hbb_result[3])
         tracker.init(frame,bbox)
         trackers.append(tracker)
-        print(hbb_result)
-        other_infos.append[[hbb_result[-2],hbb_result[-1]]]
+        #print(hbb_result)
+        other_infos.append([hbb_result[-2],hbb_result[-1]])
+        
     return trackers,other_infos
 
 def update_trackers(frame,trackers,other_infos):
