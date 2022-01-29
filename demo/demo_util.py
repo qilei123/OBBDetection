@@ -1,3 +1,4 @@
+from cmath import inf
 import cv2
 import numpy as np
 import json
@@ -194,8 +195,8 @@ def filt_results_with_roi(obboxes,cls_labels,score_thr = 0.3,roi = []):
         if obbox[-1]>score_thr:# and polygon_vs_roi(polygon,roi):
             result = np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label])
             polygon = det2polygon(result[:-2]) 
-            #if polygon_vs_roi1(polygon,roi): 
-            if polygon_vs_roi2(obb2obbox(obbox[:-1]),roi): 
+            if polygon_vs_roi1(polygon,roi): 
+            #if polygon_vs_roi1(obb2obbox(obbox[:-1]),roi):  #ignore the roi
                 results.append(result)
             #print(np.append(obb2obbox(obbox[:-1]),[obbox[-1],cls_label]))
     return results
@@ -239,3 +240,67 @@ def get_det_edge_centers(result_dets):
 
 def get_det_short_edget_centers(det_edge_centers,det_ls):
     pass   
+
+def create_opencv_tracker(tracker_type='KCF'):
+    if tracker_type == 'BOOSTING':
+        tracker = cv2.TrackerBoosting_create()
+        tracker_class = cv2.TrackerBoosting_create
+    elif tracker_type == 'MIL':
+        tracker = cv2.TrackerMIL_create()
+        tracker_class = cv2.TrackerMIL_create
+    elif tracker_type == 'KCF':
+        tracker = cv2.TrackerKCF_create()
+        tracker_class = cv2.TrackerKCF_create
+    elif tracker_type == 'TLD':
+        tracker = cv2.TrackerTLD_create()
+        tracker_class = cv2.TrackerTLD_create
+    elif tracker_type == 'MEDIANFLOW':
+        tracker = cv2.TrackerMedianFlow_create()
+        tracker_class = cv2.TrackerMedianFlow_create
+    # elif tracker_type == 'GOTURN':
+    #     tracker = cv2.TrackerGOTURN_create()
+    elif tracker_type == 'MOSSE':
+        tracker = cv2.TrackerMOSSE_create()
+        tracker_class = cv2.TrackerMOSSE_create
+    elif tracker_type == "CSRT":
+        tracker = cv2.TrackerCSRT_create()
+        tracker_class = cv2.TrackerCSRT_create
+    else:
+        assert False, "No such tracker:"+tracker_type
+    return tracker
+
+def obbox2hbbox(obbox):
+    minx = float('inf')
+    miny = float('inf')
+    maxx = -1
+    maxy = -1
+    
+    for i,xy in enumerate(obbox):
+        if i%2==0:
+            minx = xy if minx>xy else minx
+            maxx = xy if maxx<xy else maxx
+        else:
+            miny = xy if miny>xy else miny
+            maxx = xy if maxx<xy else maxx
+
+    return [minx,miny,maxx,maxy]
+
+def obb_results2hbb_results(results):
+    hbb_results = []
+
+    for obb_result in results:
+        print(obb_result)
+        hbb_result = [*obbox2hbbox(obb_result[:-2]),obb_result[-2],obb_result[-1]]
+        print(hbb_results)
+        hbb_results.append(hbb_result)
+
+    return hbb_results
+
+
+def init_trackers(hbb_results):
+    trackers = {}
+    return trackers
+
+def update_trackers(trackers):
+    hbb_results = []
+    return hbb_results
