@@ -69,7 +69,7 @@ def main():
 
     while ret_val:
         hbb_results = []
-        if frame_number%5==0:
+        if frame_number%3==0:
 
             if not args.split:
                 result = inference_detector(model, img)
