@@ -299,6 +299,8 @@ def obb_results2hbb_results(results):
 
 def init_trackers(hbb_results):
     trackers = {}
+    for hbb_result in hbb_results:
+        print(hbb_result)
     return trackers
 
 def update_trackers(trackers):
