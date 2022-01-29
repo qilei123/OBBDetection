@@ -305,7 +305,7 @@ def init_trackers(frame,hbb_results):
         bbox = (hbb_result[0],hbb_result[1],hbb_result[2],hbb_result[3])
         tracker.init(frame,bbox)
         trackers.append(tracker)
-        other_infos.append[{"score":hbb_result[-2],"label":hbb_result[-1]}]
+        other_infos.append[[hbb_result[-2],hbb_result[-1]]]
     return trackers,other_infos
 
 def update_trackers(frame,trackers,other_infos):
@@ -313,7 +313,7 @@ def update_trackers(frame,trackers,other_infos):
     for tracker,other_info in zip(trackers,other_infos):
         success,hbbox = tracker.update(frame)
         if success:
-            hbb_result = [hbbox[0],hbbox[1],hbbox[2],hbbox[3],other_info['score'],other_info['label']]
+            hbb_result = [hbbox[0],hbbox[1],hbbox[2],hbbox[3],other_info[0],other_info[1]]
             hbb_results.append(hbb_result)
     return hbb_results
 

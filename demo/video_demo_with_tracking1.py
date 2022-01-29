@@ -88,11 +88,11 @@ def main():
 
             hbb_results = obb_results2hbb_results(results)
 
-            multi_trackers = init_trackers(img,hbb_results)
+            multi_trackers,other_infos = init_trackers(img,hbb_results)
 
         else:
 
-            hbb_results = update_trackers(img,multi_trackers)
+            hbb_results = update_trackers(img,multi_trackers,other_infos)
 
         obb_results = hbbs2obbs(hbb_results)
 
