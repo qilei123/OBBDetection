@@ -281,7 +281,7 @@ def obbox2hbbox(obbox):
             maxx = xy if maxx<xy else maxx
         else:
             miny = xy if miny>xy else miny
-            maxy = xy if maxx<xy else maxy
+            maxy = xy if maxy<xy else maxy
 
     return [minx,miny,maxx,maxy]
 
