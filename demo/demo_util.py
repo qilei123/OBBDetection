@@ -340,5 +340,5 @@ def hbbs2obbs(hbb_results):
         obb_result.append(hbb_result[5])  
 
         obb_results.append(obb_result)
-
+        print(obb_result)
     return obb_results      
