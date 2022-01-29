@@ -77,7 +77,7 @@ def main():
                 nms_cfg = dict(type='BT_nms', iou_thr=0.1)
                 result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
 
-            img = show_obb_result(img,*result)
+            #img = show_obb_result(img,*result)
 
 
             #results = filt_results(*result)
@@ -88,11 +88,11 @@ def main():
 
             hbb_results = obb_results2hbb_results(results)
 
-            multi_trackers = init_trackers(hbb_results)
+            multi_trackers = init_trackers(img,hbb_results)
 
         else:
 
-            hbb_results = update_trackers(multi_trackers)
+            hbb_results = update_trackers(img,multi_trackers)
 
         obb_results = hbbs2obbs(hbb_results)
 
