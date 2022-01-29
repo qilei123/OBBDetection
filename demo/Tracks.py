@@ -59,7 +59,7 @@ class tracks_manager:
 
         for i in range(int(len(det_polygon)/2)):
             polygon.append((det_polygon[i*2],det_polygon[i*2+1]))
-        print(polygon)
+        
         return Polygon(polygon)
     def update(self,det_polygons,frame_id):
         
