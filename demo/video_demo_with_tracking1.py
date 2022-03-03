@@ -45,13 +45,20 @@ def main():
     model = init_detector(args.config, args.checkpoint, device=device)
 
     video_reader = cv2.VideoCapture(args.video_dir)
+
+    img_scale = 0.5
+    
+    video_width = int(video_reader.get(cv2.CAP_PROP_FRAME_WIDTH))
+    video_height = int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
     video_writer = None
+
     if args.out_dir:
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    
         video_writer = cv2.VideoWriter(
             args.out_dir, fourcc, video_reader.get(cv2.CAP_PROP_FPS),
-            (int(video_reader.get(cv2.CAP_PROP_FRAME_WIDTH)),
-            int(video_reader.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+            (int(video_width*img_scale), int(video_height*img_scale)))
     
     ret_val, img = video_reader.read()
     
@@ -107,7 +114,8 @@ def main():
             cv2.imwrite(save_img_dir,img)
 
         if video_writer:
-            video_writer.write(img)
+            scaled_img = cv2.resize(img, (int(video_width*img_scale), int(video_height*img_scale)))
+            video_writer.write(scaled_img)
         
         ret_val, img = video_reader.read()
         frame_number+=1

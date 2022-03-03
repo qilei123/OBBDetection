@@ -8,5 +8,5 @@ from .obb.theta0_anchor_generator import Theta0AnchorGenerator
 __all__ = [
     'AnchorGenerator', 'LegacyAnchorGenerator', 'anchor_inside_flags',
     'PointGenerator', 'images_to_levels', 'calc_region',
-    'build_anchor_generator', 'ANCHOR_GENERATORS'
+    'build_anchor_generator', 'ANCHOR_GENERATORS','Theta0AnchorGenerator'
 ]
