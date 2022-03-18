@@ -105,7 +105,7 @@ class TDDataset(CustomDataset):
             contents.append(content)
         self.coco_type = False
         print(len(contents))
-        return random.shuffle(contents)
+        return contents
     def get_cat_ids(self, idx):
         """Get COCO category ids by index.
 
