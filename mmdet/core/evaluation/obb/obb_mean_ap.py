@@ -351,8 +351,11 @@ def print_map_summary(mean_ap,
         table_data = [header]
         for j in range(num_classes):
             row_data = [
-                label_names[j], num_gts[i, j], results[j]['num_dets'],
-                f'{recalls[i, j]:.4f}', f'{aps[i, j]:.4f}'
+                label_names[j], 
+                num_gts[i, j], 
+                results[j]['num_dets'],
+                f'{recalls[i, j]:.4f}', 
+                f'{aps[i, j]:.4f}'
             ]
             table_data.append(row_data)
         table_data.append(['mAP', '', '', '', f'{mean_ap[i]:.4f}'])
