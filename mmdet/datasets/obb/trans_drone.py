@@ -51,6 +51,7 @@ class TDDataset(CustomDataset):
                  **kwargs):
         if classes:
             self.CLASSES = classes
+        print(self.CLASSES)
         super(TDDataset, self).__init__(*args, **kwargs)
     def load_annotations(self, ann_file):
         """Load annotation from COCO style annotation file.
