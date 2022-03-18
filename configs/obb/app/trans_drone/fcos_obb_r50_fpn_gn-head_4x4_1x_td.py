@@ -4,7 +4,7 @@ _base_ = [
     '../../../_base_/default_runtime.py'
 ]
 data_root = 'data/td/'
-img_rescale_ratio = 0.5
+img_rescale_ratio = 0.25
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
 classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck','Tractor','Trailer']
 num_classes=5
