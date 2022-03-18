@@ -350,6 +350,7 @@ def print_map_summary(mean_ap,
             print_log(f'Scale range {scale_ranges[i]}', logger=logger)
         table_data = [header]
         for j in range(num_classes):
+            print(label_names)
             row_data = [
                 label_names[j], 
                 num_gts[i, j], 
