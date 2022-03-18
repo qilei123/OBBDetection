@@ -196,9 +196,10 @@ class TDDataset(CustomDataset):
             gt_labels.append(self.cat2label[ann['category_id']])
             gt_masks_ann.append(seg2minrect(ann['segmentation'][0]))
             diffs.append(0)
-
+        
         gt_masks_ann = np.array(gt_masks_ann, dtype=np.float32) if gt_masks_ann else \
                 np.zeros((0, 8), dtype=np.float32)
+        print(gt_masks_ann.shape)
         gt_labels = np.array(gt_labels, dtype=np.int64) if gt_labels else \
                 np.zeros((0, ), dtype=np.int64)
         diffs = np.array(diffs, dtype=np.int64) if diffs else \
