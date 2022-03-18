@@ -6,6 +6,8 @@ _base_ = [
 data_root = 'data/td/'
 img_rescale_ratio = 0.5
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
+classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck','Tractor','Trailer']
+num_classes=5
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # model settings
@@ -32,7 +34,7 @@ model = dict(
         relu_before_extra_convs=True),
     bbox_head=dict(
         type='OBBFCOSHead',
-        num_classes=3,
+        num_classes=num_classes,
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
@@ -111,15 +113,18 @@ data = dict(
     train=dict(
         ann_file=data_root + 'annotations/train_AW_C5.json',
         img_prefix=data_root + 'images/',
-        pipeline=train_pipeline),
+        pipeline=train_pipeline,
+        classes=classes),
     val=dict(
         ann_file=data_root + 'annotations/test_AW_C5.json',
         img_prefix=data_root + 'images/',
-        pipeline=test_pipeline),
+        pipeline=test_pipeline,
+        classes=classes),
     test=dict(
         ann_file=data_root + 'annotations/test_AW_C5.json',
         img_prefix=data_root + 'images/',
-        pipeline=test_pipeline))
+        pipeline=test_pipeline,
+        classes=classes))
 
 # learning policy
 lr_config = dict(
