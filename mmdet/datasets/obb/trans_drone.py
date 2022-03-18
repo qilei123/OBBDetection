@@ -123,6 +123,7 @@ class TDDataset(CustomDataset):
         valid_inds = []
         if self.coco_type:
             ids_with_ann = set(_['image_id'] for _ in self.coco.anns.values())
+            print(self.data_infos)
             for i, img_info in enumerate(self.data_infos):
                 if self.filter_empty_gt and self.img_ids[i] not in ids_with_ann:
                     continue
