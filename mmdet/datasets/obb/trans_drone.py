@@ -13,6 +13,30 @@ from ..builder import DATASETS
 from ..custom import CustomDataset
 import BboxToolkit as bt
 
+from shapely.geometry import Point, Polygon, MultiPoint
+def seg2points(seg):
+    points = []
+    
+    for i in range(len(seg)):
+        if i%2==1:
+            points.append((seg[i-1],seg[i]))
+
+    return points
+
+def seg2minrect(seg):
+    #seg = ann['segmentation'][0]
+    #print(seg)
+    polygon_points = seg2points(seg)
+    polygon = Polygon(polygon_points)
+    #print(polygon)
+    min_rect = polygon.minimum_rotated_rectangle
+    #print(min_rect)
+    xs,ys = min_rect.exterior.coords.xy
+    xys = []
+    for i in range(4):
+        xys.append(round(xs[i],2))
+        xys.append(round(ys[i],2))
+    return xys
 @DATASETS.register_module()
 class TDDataset(CustomDataset):
 
@@ -170,7 +194,7 @@ class TDDataset(CustomDataset):
 
             gt_bboxes.append(bbox)
             gt_labels.append(self.cat2label[ann['category_id']])
-            gt_masks_ann.append(ann['segmentation'][0])
+            gt_masks_ann.append(seg2minrect(ann['segmentation'][0]))
             diffs.append(0)
 
         gt_masks_ann = np.array(gt_masks_ann, dtype=np.float32) if gt_masks_ann else \
