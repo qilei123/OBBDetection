@@ -42,7 +42,8 @@ class TDDataset(CustomDataset):
 
     CLASSES = ('Small 1-piece vehicle',
                     'Large 1-piece vehicle',
-                    'Extra-large 2-piece truck',)
+                    'Extra-large 2-piece truck',
+                    'Tractor','Trailer')
     coco_type = True
 
     def __init__(self,
