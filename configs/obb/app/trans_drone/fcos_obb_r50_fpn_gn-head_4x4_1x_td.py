@@ -3,7 +3,7 @@ _base_ = [
     '../../_base_/schedules/schedule_1x.py',
     '../../../_base_/default_runtime.py'
 ]
-
+data_root = 'data/td/'
 img_rescale_ratio = 0.5
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
 img_norm_cfg = dict(
@@ -109,10 +109,16 @@ data = dict(
     samples_per_gpu=4,
     workers_per_gpu=8,
     train=dict(
+        ann_file=data_root + 'annotations/train_AW_C5.json',
+        img_prefix=data_root + 'images/',
         pipeline=train_pipeline),
     val=dict(
+        ann_file=data_root + 'annotations/test_AW_C5.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline),
     test=dict(
+        ann_file=data_root + 'annotations/test_AW_C5.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
 
 # learning policy
@@ -123,4 +129,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_norotate'
+work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_C5'
