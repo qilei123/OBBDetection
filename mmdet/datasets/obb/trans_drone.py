@@ -51,7 +51,7 @@ class TDDataset(CustomDataset):
                  **kwargs):
         if classes:
             self.CLASSES = classes
-        print(self.CLASSES)
+        #print(self.CLASSES)
         super(TDDataset, self).__init__(*args, **kwargs)
     def load_annotations(self, ann_file):
         """Load annotation from COCO style annotation file.
@@ -104,7 +104,7 @@ class TDDataset(CustomDataset):
             content = self._parse_ann_info(info,ann_info)
             contents.append(content)
         self.coco_type = False
-        print(len(contents))
+        #print(len(contents))
         return contents
     def get_cat_ids(self, idx):
         """Get COCO category ids by index.
@@ -133,7 +133,7 @@ class TDDataset(CustomDataset):
                     valid_inds.append(i)
             return valid_inds
         else:
-            print(self.data_infos)
+
             for i, img_info in enumerate(self.data_infos):
                 if min(img_info['width'], img_info['height']) >= min_size:
                     valid_inds.append(i)

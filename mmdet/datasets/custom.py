@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 from mmdet.core import eval_map, eval_recalls
 from .builder import DATASETS
 from .pipelines import Compose
-
+import random
 
 @DATASETS.register_module()
 class CustomDataset(Dataset):
@@ -80,7 +80,8 @@ class CustomDataset(Dataset):
                                               self.proposal_file)
         # load annotations (and proposals)
         self.data_infos = self.load_annotations(self.ann_file)
-        print(self.data_infos)
+
+        random.shuffle(self.data_infos)
         # filter data infos if classes are customized
         if self.custom_classes:
             self.data_infos = self.get_subset_by_classes()
