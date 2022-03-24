@@ -81,7 +81,7 @@ def main():
             
             cat_id= 0
             for re in result:
-                print(re)
+                print(len(re))
                 cat_ids = np.ones(len(re))*cat_id
                 img = show_obb_result(img,re,cat_ids)
                 cat_id+=1
