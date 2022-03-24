@@ -70,6 +70,7 @@ def show_obb_result(frame, result, cls_labels, score_thr = 0.3,show_bbox = True)
     cat_ids = cls_labels
 
     for cat_bbox,cat_id in zip(bbox_results,cat_ids):
+        print(cat_bbox)
         if cat_bbox[-1]>=score_thr:
             if show_bbox:
                 frame = draw_obb_box(frame,cat_bbox,cat_id,(255,0,0))
