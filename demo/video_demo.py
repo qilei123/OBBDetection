@@ -86,7 +86,7 @@ def main():
                 cat_ids.append(np.ones(len(re))*cat_id)
                 #img = show_obb_result(img,re,cat_ids)
                 cat_id+=1
-            result = np.stack(result)
+            result = np.stack(result,dim=1)
             cat_ids = np.stack(cat_ids)
             result[result,cat_ids]
         else:
