@@ -78,6 +78,7 @@ def main():
         
         if not args.split:
             result = inference_detector(model, img)
+            print(result)
             for cat_id,re in enumerate( result):
                 print(re)
                 cat_ids = np.ones(len(re))*cat_id
