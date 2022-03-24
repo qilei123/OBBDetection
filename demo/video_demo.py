@@ -80,6 +80,7 @@ def main():
             result = inference_detector(model, img)
             
             cat_ids= []
+            cat_id = 1
             for re in result:
 
                 cat_ids.append(np.ones(len(re))*cat_id)
