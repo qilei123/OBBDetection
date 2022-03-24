@@ -80,7 +80,7 @@ def main():
             result = inference_detector(model, img)
             
             cat_id= 0
-            for re in result[0]:
+            for re in result:
                 print(re)
                 cat_ids = np.ones(len(re))*cat_id
                 img = show_obb_result(img,re,cat_ids)
