@@ -86,8 +86,8 @@ def main():
                 cat_ids.append(np.ones(len(re))*cat_id)
                 #img = show_obb_result(img,re,cat_ids)
                 cat_id+=1
-            result = np.stack(result,dim=1)
-            cat_ids = np.stack(cat_ids)
+            result = np.concatenate(result)
+            cat_ids = np.concatenate(cat_ids)
             result[result,cat_ids]
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
