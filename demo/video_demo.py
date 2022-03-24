@@ -78,11 +78,13 @@ def main():
         
         if not args.split:
             result = inference_detector(model, img)
-            print(result)
-            for cat_id,re in enumerate( *result):
+            
+            cat_id= 0
+            for re in result[0]:
                 print(re)
                 cat_ids = np.ones(len(re))*cat_id
                 img = show_obb_result(img,re,cat_ids)
+                cat_id+=1
         else:
             nms_cfg = dict(type='BT_nms', iou_thr=0.1)
             result = inference_detector_huge_image(model,img,args.split,nms_cfg,args.mix)
