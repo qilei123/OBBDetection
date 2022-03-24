@@ -65,7 +65,7 @@ def bbox2polygon(bbox):
     return [bbox[0],bbox[1],bbox[2],bbox[1],bbox[2],bbox[3],bbox[0],bbox[3]]
 
 def show_obb_result(frame, result, cls_labels, score_thr = 0.3,show_bbox = True):
-
+    
     bbox_results = result
     cat_ids = cls_labels
 

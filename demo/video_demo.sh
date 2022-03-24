@@ -65,7 +65,7 @@
 #     python demo/video_demo.py \
 #         configs/obb/app/trans_drone/$CONFIG.py \
 #         data/td/work_dirs/${PARAM_FOLDER}/latest.pth \
-#         #--split BboxToolkit/tools/split_configs/trans_drone/aw_test.json \
+#         --split BboxToolkit/tools/split_configs/trans_drone/aw_test.json \
 #         --video_dir "${VIDEO_DIR}/${VIDEO_NAME}" \
 #         --out_dir "/home/qilei/DATASETS/trans_drone/andover_worster/work_dirs/${PARAM_FOLDER}/video_results/${VIDEO_NAME}" --mix --save_imgs
 # done
