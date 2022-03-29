@@ -40,9 +40,10 @@ def seg2minrect(seg):
 @DATASETS.register_module()
 class TDDataset(CustomDataset):
 
-    CLASSES = ('Small 1-piece vehicle',
-                    'Large 1-piece vehicle',
-                    'Extra-large 2-piece truck')
+    #CLASSES = ('Small 1-piece vehicle',
+    #                'Large 1-piece vehicle',
+    #                'Extra-large 2-piece truck')
+    CLASSES=("Small 1-piece vehicle",'Large 1-piece vehicle','Tractor','Trailer')
     coco_type = True
 
     def __init__(self,
