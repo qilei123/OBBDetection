@@ -9,7 +9,7 @@ img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
 classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck']
 #classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck','Tractor','Trailer']
 #classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Tractor','Trailer']
-num_classes=2
+num_classes=3
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # model settings
