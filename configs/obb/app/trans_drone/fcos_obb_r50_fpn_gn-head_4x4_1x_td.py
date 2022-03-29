@@ -110,8 +110,8 @@ test_pipeline = [
 # does evaluation while training
 # uncomments it  when you need evaluate every epoch
 data = dict(
-    samples_per_gpu=4,
-    workers_per_gpu=2,
+    samples_per_gpu=2,
+    workers_per_gpu=1,
     train=dict(
         ann_file=data_root + 'annotations/train_AW_C5.json',
         img_prefix=data_root + 'images/',
