@@ -6,10 +6,10 @@ _base_ = [
 data_root = 'data/td/'
 img_rescale_ratio = 0.5
 img_scale=(3920*img_rescale_ratio, 2160*img_rescale_ratio)
-#classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck']
+classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck']
 #classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Extra-large 2-piece truck','Tractor','Trailer']
-classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Tractor','Trailer']
-num_classes=4
+#classes=["Small 1-piece vehicle",'Large 1-piece vehicle','Tractor','Trailer']
+num_classes=2
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # model settings
@@ -136,4 +136,4 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[16, 22])
 total_epochs = 24
-work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_C4_v2'
+work_dir = 'data/td/work_dirs/fcos_obb_r50_fpn_gn-head_4x4_1x_td_C2_v2'
