@@ -95,7 +95,7 @@ class TDDataset(CustomDataset):
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
         self.cat2label = {cat_id: i for i, cat_id in enumerate(self.cat_ids)}
         # this if for merge 2 and 3
-        self.cat2label = {1:0,2:1,3:1}
+        #self.cat2label = {1:0,2:1,3:1}
 
         self.img_ids = self.coco.get_img_ids()
 
