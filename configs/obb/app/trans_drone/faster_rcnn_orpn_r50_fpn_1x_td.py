@@ -1,7 +1,7 @@
 _base_ = [
     '../../_base_/datasets/td.py',
-    '../_base_/schedules/schedule_1x.py',
-    '../../_base_/default_runtime.py'
+    '../../_base_/schedules/schedule_1x.py',
+    '../../../_base_/default_runtime.py'
 ]
 
 data_root = 'data/td/'
