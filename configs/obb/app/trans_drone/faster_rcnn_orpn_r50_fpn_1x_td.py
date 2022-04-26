@@ -161,7 +161,7 @@ test_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=8,
     workers_per_gpu=1,
     train=dict(
         ann_file=data_root + 'annotations/train_AW_C5.json',
